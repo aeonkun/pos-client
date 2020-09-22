@@ -1,80 +1,139 @@
-import axios from 'axios';
+import axios from "axios";
 
-const url = 'http://localhost:5000';
+const url = "http://localhost:5000";
 
-export const fetchUsersApi = async() => {
-    try {
-        const { data } = await axios.get(url + '/users');
+export const getProductsApi = async (token) => {
+  try {
+    const { data } = await axios.get(url + "/products", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-        return data;
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 
-    } catch (error) {
-        
-    }
-}
+export const submitOrderApi = async (
+  token,
+  {
+    firstName,
+    lastName,
+    address,
+    contactNumber,
+    orderDetails,
+    isPaid,
+    status,
+    createdBy,
+  }
+) => {
+  try {
+    await axios.post(
+      url + "/orders",
+      {
+        firstName,
+        lastName,
+        address,
+        contactNumber,
+        orderDetails,
+        isPaid,
+        status,
+        createdBy,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 
-export const deleteUserApi = async (id) => {
-    try {
-        const { data } = await axios.delete(url + `/users/${id}`);
+export const createProductApi = async (token, { name, quantity, price }) => {
+  try {
+    const { data } = await axios.post(
+      url + "/products",
+      {
+        name,
+        quantity,
+        price,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 
-        return data;
+export const deleteProductApi = async (token, id) => {
+  try {
+    const { data } = await axios.delete(url + `/products/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 
-    } catch (error) {
-        
-    }
-}
+export const getOrdersApi = async (token) => {
+  try {
+    const { data } = await axios.get(url + "/orders", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {}
+};
 
-export const createUserApi = async (firstName, lastName, email, password) => {
-    try {
-        const { data } = await axios.post(url + '/users', {
-            first_name: firstName,
-            last_name: lastName,
-            email: email,
-            password: password
-        });
-        
-        return data;
-        
-    } catch (error) {
-        
-    }
-}
+export const getStatusHistoryApi = async (token, id) => {
+  try {
+    const { data } = await axios.get(url + `/orders/${id}/status`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-export const loginApi = async (email, password) => {
-    try {
-        const { data } = await axios.post(url + '/users/login', {
-            email: email,
-            password: password,
-        }, {
-            withCredentials: true
-        })
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
 
-        return data;
-    } catch (error) {
-        
-    }
-} 
+export const updatePaymentAndOrderStatusApi = async (
+  token,
+  id,
+  newPaymentStatus,
+  newOrderStatus,
+  modifiedBy
+) => {
+  try {
+    const { data } = await axios.put(
+      url + `/orders/${id}/status`,
+      {
+        newPaymentStatus,
+        newOrderStatus,
+        modifiedBy,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-export const getUserApi = async () => {
-    try {
-        const { data } = await axios.get(url + '/user', {
-            withCredentials: true
-        })
-
-        return data;
-    } catch (error) {
-        
-    }
-} 
-
-export const getProductsApi = async () => {
-    try {
-        const { data } = await axios.get(url + '/products', {
-            withCredentials: true
-        });
-
-        return data;
-    } catch (error) {
-        
-    }
-}
+    return data;
+  } catch (error) {}
+};

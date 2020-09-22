@@ -1,13 +1,11 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import React, { Fragment } from "react";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import TextField from "@material-ui/core/TextField";
 
-export default function CustomerDetails(props) {
+const CustomerDetails = (props) => {
   return (
-    <React.Fragment>
+    <Fragment>
       <Typography variant="h6" gutterBottom>
         Customer Details
       </Typography>
@@ -20,7 +18,7 @@ export default function CustomerDetails(props) {
             label="First name"
             fullWidth
             autoComplete="given-name"
-            onChange={props.handleStateChange('firstName')}
+            onChange={props.handleStateChange("firstName")}
             defaultValue={props.order.firstName}
           />
         </Grid>
@@ -32,7 +30,7 @@ export default function CustomerDetails(props) {
             label="Last name"
             fullWidth
             autoComplete="family-name"
-            onChange={props.handleStateChange('lastName')}
+            onChange={props.handleStateChange("lastName")}
             defaultValue={props.order.lastName}
           />
         </Grid>
@@ -44,7 +42,7 @@ export default function CustomerDetails(props) {
             label="Shipping Address"
             fullWidth
             autoComplete="shipping address"
-            onChange={props.handleStateChange('address')}
+            onChange={props.handleStateChange("address")}
             defaultValue={props.order.address}
           />
         </Grid>
@@ -55,11 +53,13 @@ export default function CustomerDetails(props) {
             name="contactNumber"
             label="Contact Number"
             fullWidth
-            onChange={props.handleStateChange('contactNumber')}
+            onChange={props.handleStateChange("contactNumber")}
             defaultValue={props.order.contactNumber}
           />
         </Grid>
       </Grid>
-    </React.Fragment>
+    </Fragment>
   );
-}
+};
+
+export default CustomerDetails;
