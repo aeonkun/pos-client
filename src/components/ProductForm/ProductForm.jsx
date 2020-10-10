@@ -1,88 +1,25 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import TextField from "@material-ui/core/TextField";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { Alert } from "@material-ui/lab";
 import Snackbar from "@material-ui/core/Snackbar";
-import { createProductApi } from "../../api";
-import { useAuth0 } from "@auth0/auth0-react";
 import useStyles from "./ProductFormStyles";
 
-const ProductForm = () => {
+const ProductForm = ({
+  handleStateChange,
+  product,
+  createProduct,
+  notification,
+  handleClose,
+}) => {
   const classes = useStyles();
-
-  const [product, setProduct] = useState({
-    name: "",
-    price: "",
-    quantity: "",
-  });
-
-  const [notification, setNotification] = useState({
-    status: "",
-    message: "",
-    open: false,
-  });
-
-  const { getAccessTokenSilently } = useAuth0();
-
-  const handleStateChange = (input) => (e) => {
-    setProduct({ ...product, [input]: e.target.value });
-  };
-
-  const createProduct = async () => {
-    const token = await getAccessTokenSilently();
-    const response = await createProductApi(token, product);
-    openSnackbar(response);
-    clearProductState();
-  };
-
-  const openSnackbar = ({ status, message }) => {
-    setNotification({
-      status,
-      message,
-      open: true,
-    });
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    clearNotification();
-  };
-
-  const clearNotification = () => {
-    setNotification({
-      open: false,
-      status: notification.status,
-      message: "",
-    });
-  };
-
-  const clearProductState = () => {
-    setProduct({
-      name: "",
-      price: "",
-      quantity: "",
-    });
-  };
-
   return (
     <Fragment>
       <CssBaseline />
-      <AppBar position="absolute" color="default" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Add Product
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">

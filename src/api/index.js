@@ -137,3 +137,17 @@ export const updatePaymentAndOrderStatusApi = async (
     return data;
   } catch (error) {}
 };
+
+export const getIncomeApi = async (token) => {
+  try {
+    const { data } = await axios.get(`${url}/analytics/orders/income`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+};

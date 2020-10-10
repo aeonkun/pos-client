@@ -1,7 +1,5 @@
 import React, { Fragment, useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
 import Step from "@material-ui/core/Step";
@@ -51,6 +49,7 @@ const OrderForm = () => {
     console.log(order);
   };
 
+  const NOT_PRESENT = -1;
   const handleProductStateChange = ({
     productId,
     name,
@@ -60,11 +59,11 @@ const OrderForm = () => {
   }) => {
     //get index of given object if object is already present in the array. Index will be -1 if it is not present
     const index = order.orderDetails.findIndex(
-      (a) => a.productId === productId
+      (element) => element.productId === productId
     );
-    //if product is already present in the order details array, edit the properties,
+    //if product index is already present in the order details array, edit the properties,
     //else, add product to order details array
-    if (index !== -1) {
+    if (index !== NOT_PRESENT) {
       //if quantity is set to blank or 0, remove it from the orderDetails array
       //else update the orderDetail
       console.log("product in array");
@@ -124,13 +123,6 @@ const OrderForm = () => {
   return (
     <Fragment>
       <CssBaseline />
-      <AppBar position="absolute" color="default" className={classes.appBar}>
-        <Toolbar>
-          <Typography variant="h6" color="inherit" noWrap>
-            Order Form
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">

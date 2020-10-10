@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React from "react";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -13,6 +12,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Button from "@material-ui/core/Button";
 import Divider from "@material-ui/core/Divider";
 import { format } from "date-fns";
+import * as Constants from "./constants/OrderListConstants";
 import useStyles from "./OrderListStyles";
 
 function formatDateTime(dateTime) {
@@ -28,7 +28,7 @@ const OrderStatusModal = (props) => {
       <Modal
         className={classes.modal}
         open={props.openModal}
-        onClose={() => props.handleClose("modal")}
+        onClose={() => props.handleCloseModal()}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -42,34 +42,17 @@ const OrderStatusModal = (props) => {
                 <Typography variant="h6">Status</Typography>
               </Grid>
               <Grid item xs={12} sm={4}>
-                <Typography variant="subtitle2">Payment Status:</Typography>
-                <Select
-                  labelId="demo-simple-select-helper-label"
-                  id="demo-simple-select-helper"
-                  value={props.status.paymentStatus}
-                  onChange={props.updateStatusAndHistoryState("paymentStatus")}
-                >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={"PAID"}>PAID</MenuItem>
-                  <MenuItem value={"UNPAID"}>UNPAID</MenuItem>
-                </Select>
-              </Grid>
-              <Grid item xs={12} sm={4}>
                 <Typography variant="subtitle2">Order Status:</Typography>
                 <Select
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
                   value={props.status.orderStatus}
+                  fullWidth
                   onChange={props.updateStatusAndHistoryState("orderStatus")}
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={"ORDER_PLACED"}>ORDER PLACED</MenuItem>
-                  <MenuItem value={"FOR_DELIVERY"}>FOR DELIVERY</MenuItem>
-                  <MenuItem value={"DELIVERED"}>DELIVERED</MenuItem>
+                  {Constants.orderStatuses.map((status) => (
+                    <MenuItem value={status}>{status}</MenuItem>
+                  ))}
                 </Select>
               </Grid>
               <Grid
