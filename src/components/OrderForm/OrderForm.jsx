@@ -12,31 +12,40 @@ import Review from "./Review";
 import { submitOrderApi } from "../../api";
 import { useAuth0 } from "@auth0/auth0-react";
 import useStyles from "./OrderFormStyles";
+import * as Constants from "./constants/OrderFormConstants";
 
 const OrderForm = () => {
   const classes = useStyles();
 
   const { user, getAccessTokenSilently } = useAuth0();
 
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const [order, setOrder] = useState({
     firstName: "",
     lastName: "",
-    address: "",
+    deliveryAddress: "",
     contactNumber: "",
+    nearbyLandmark: "",
     orderDetails: [],
     isPaid: false,
     status: "Order Placed",
     createdBy: user.name,
     totalPrice: 0,
+    paymentMethod: Object.keys(Constants.paymentMethod).find(
+      (key) => Constants.paymentMethod[key] === "Cash on delivery"
+    ),
+    additionalNotes: "",
   });
+  const [orderNumber, setOrderNumber] = useState(null);
 
   const handleNext = async () => {
     setActiveStep(activeStep + 1);
 
     if (activeStep === steps.length - 1) {
       const token = await getAccessTokenSilently();
-      await submitOrderApi(token, order);
+      const orderId = await submitOrderApi(token, order);
+      console.log(orderId);
+      setOrderNumber(orderId);
     }
   };
 
@@ -69,16 +78,30 @@ const OrderForm = () => {
       console.log("product in array");
       if (!quantity || quantity === "0") {
         console.log("quantity set to 0 or blank");
-        order.orderDetails.splice(index, 1);
+        let details = [...order.orderDetails];
+        details.splice(index, 1);
+        console.log(details);
+        setOrder({ order, orderDetails: details });
+        // order.orderDetails.splice(index, 1);
       } else {
         console.log(`quant not zero or null : ${quantity}`);
-        order.orderDetails[index] = {
-          productId,
-          name,
-          quantity,
-          unitPrice,
-          totalPrice,
-        };
+        setOrder(
+          order,
+          (order.orderDetails[index] = {
+            productId,
+            name,
+            quantity,
+            unitPrice,
+            totalPrice,
+          })
+        );
+        // order.orderDetails[index] = {
+        //   productId,
+        //   name,
+        //   quantity,
+        //   unitPrice,
+        //   totalPrice,
+        // };
       }
     } else {
       if (quantity && quantity !== "0") {
@@ -109,6 +132,7 @@ const OrderForm = () => {
       case 1:
         return (
           <OrderDetails
+            handleStateChange={handleStateChange}
             handleProductStateChange={handleProductStateChange}
             order={order}
           />
@@ -142,9 +166,7 @@ const OrderForm = () => {
                   Thank you for your order.
                 </Typography>
                 <Typography variant="subtitle1">
-                  Your order number is #2001539. We have emailed your order
-                  confirmation, and will send you an update when your order has
-                  shipped.
+                  {`Your order has been successfully placed! Order Number: ${orderNumber}`}
                 </Typography>
               </Fragment>
             ) : (
@@ -161,6 +183,9 @@ const OrderForm = () => {
                     color="primary"
                     onClick={handleNext}
                     className={classes.button}
+                    disabled={
+                      order.orderDetails.length === 0 && activeStep !== 0
+                    }
                   >
                     {activeStep === steps.length - 1 ? "Place order" : "Next"}
                   </Button>

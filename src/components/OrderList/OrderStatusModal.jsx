@@ -20,22 +20,28 @@ function formatDateTime(dateTime) {
   return format(date, "MM/dd/yyyy hh:mm:ss aa");
 }
 
-const OrderStatusModal = (props) => {
+const OrderStatusModal = ({
+  openModal,
+  handleCloseModal,
+  status,
+  updateStatusAndHistoryState,
+  updateStatus,
+}) => {
   const classes = useStyles();
 
   return (
     <div>
       <Modal
         className={classes.modal}
-        open={props.openModal}
-        onClose={() => props.handleCloseModal()}
+        open={openModal}
+        onClose={() => handleCloseModal()}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}
       >
-        <Fade in={props.openModal}>
+        <Fade in={openModal}>
           <div className={classes.paper}>
             <Grid container spacing={1}>
               <Grid item xs={12}>
@@ -46,12 +52,18 @@ const OrderStatusModal = (props) => {
                 <Select
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
-                  value={props.status.orderStatus}
+                  value={status.orderStatus}
                   fullWidth
-                  onChange={props.updateStatusAndHistoryState("orderStatus")}
+                  onChange={updateStatusAndHistoryState("orderStatus")}
                 >
-                  {Constants.orderStatuses.map((status) => (
-                    <MenuItem value={status}>{status}</MenuItem>
+                  {Object.values(Constants.orderStatuses).map((status) => (
+                    <MenuItem
+                      value={Object.keys(Constants.orderStatuses).find(
+                        (key) => Constants.orderStatuses[key] === status
+                      )}
+                    >
+                      {status}
+                    </MenuItem>
                   ))}
                 </Select>
               </Grid>
@@ -66,7 +78,7 @@ const OrderStatusModal = (props) => {
                   variant="contained"
                   color="primary"
                   size="small"
-                  onClick={() => props.updateStatus()}
+                  onClick={() => updateStatus(status.orderId)}
                 >
                   Save
                 </Button>
@@ -75,8 +87,8 @@ const OrderStatusModal = (props) => {
                 <Divider variant="fullWidth" className={classes.divider} />
                 <Typography variant="h6">Status History</Typography>
                 <List dense={true} className={classes.statusHistory}>
-                  {props.status.statusHistories !== null ? (
-                    props.status.statusHistories.map((history) => (
+                  {status.statusAndHistories.length !== 0 ? (
+                    status.statusAndHistories.map((history) => (
                       <ListItem>
                         <ListItemText
                           primary={`${history.modifiedBy} updated the ${history.statusType} from ${history.oldStatus} to ${history.newStatus}.`}

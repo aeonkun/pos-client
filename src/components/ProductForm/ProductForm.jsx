@@ -33,8 +33,8 @@ const ProductForm = ({
                   id="standard-required"
                   label="Product Name"
                   fullWidth
-                  onChange={handleStateChange("name")}
-                  value={product.name}
+                  onChange={handleStateChange("itemName")}
+                  value={product.itemName}
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -44,6 +44,7 @@ const ProductForm = ({
                   label="Price"
                   fullWidth
                   type="number"
+                  inputProps={{ min: "0" }}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -55,14 +56,15 @@ const ProductForm = ({
                 <TextField
                   required
                   id="standard-number"
-                  label="Quantity"
+                  label="Stock On Hand"
                   type="number"
                   fullWidth
+                  inputProps={{ min: "1" }}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={handleStateChange("quantity")}
-                  value={product.quantity}
+                  onChange={handleStateChange("stockOnHand")}
+                  value={product.stockOnHand}
                 />
               </Grid>
             </Grid>

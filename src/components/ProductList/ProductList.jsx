@@ -1,13 +1,19 @@
 import React, { Fragment } from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
+import InfoIcon from "@material-ui/icons/Info";
 import EditIcon from "@material-ui/icons/Edit";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import IconButton from "@material-ui/core/IconButton";
-import { Grid, Typography } from "@material-ui/core";
-import { ProductModal } from "..";
+import {
+  Grid,
+  Typography,
+  IconButton,
+  Divider,
+  ListItemSecondaryAction,
+  ListItemText,
+} from "@material-ui/core";
+import { ProductDetailsModal } from "..";
+import ProductEditHistory from "./ProductEditHistory";
+import ProductEditModal from "./ProductEditModal";
 
 const ProductList = ({
   data,
@@ -15,6 +21,12 @@ const ProductList = ({
   handleCloseModal,
   modalOpen,
   modalProduct,
+  modalProductHistory,
+  handleModalProductUpdate,
+  updateProduct,
+  editProductModalOpen,
+  handleOpenProductEditModal,
+  handleCloseEditProductModal,
 }) => {
   return (
     <Fragment>
@@ -27,23 +39,34 @@ const ProductList = ({
             <p>No products to show</p>
           ) : (
             <List component="product-list" aria-label="main mailbox folders">
-              {data.map((element) => (
+              {data.map((product) => (
                 <Fragment>
-                  <ListItem button>
+                  <ListItem button ContainerComponent="div">
                     <ListItemText
-                      primary={`${element.item_name}`}
-                      secondary={`Stock: ${element.quantity} | Price: ${
-                        element.price / 100
-                      } `}
+                      primary={`${product.itemName}`}
+                      secondary={`Price: ${(product.price / 100).toFixed(
+                        2
+                      )} | Stock on Hand: ${
+                        product.stockOnHand
+                      } | Committed Stock: ${
+                        product.committedStock
+                      } | Available Stock: ${product.availableStock}`}
                     />
+                    <IconButton
+                      color="primary"
+                      onClick={() => handleOpenProductEditModal(product)}
+                    >
+                      <EditIcon />
+                    </IconButton>
                     <ListItemSecondaryAction>
-                      <IconButton
+                      <InfoIcon
                         edge="end"
                         aria-label="edit"
-                        onClick={() => handleOpenModal(element)}
+                        color="primary"
+                        onClick={() => handleOpenModal(product)}
                       >
                         <EditIcon />
-                      </IconButton>
+                      </InfoIcon>
                     </ListItemSecondaryAction>
                   </ListItem>
                   <Divider />
@@ -52,11 +75,21 @@ const ProductList = ({
             </List>
           )}
         </Grid>
-        <ProductModal
-          modalOpen={modalOpen}
-          handleCloseModal={handleCloseModal}
+        <ProductEditModal
+          editProductModalOpen={editProductModalOpen}
+          handleCloseEditProductModal={handleCloseEditProductModal}
           modalProduct={modalProduct}
+          handleModalProductUpdate={handleModalProductUpdate}
+          updateProduct={updateProduct}
         />
+        <Grid>
+          <ProductDetailsModal
+            modalOpen={modalOpen}
+            handleCloseModal={handleCloseModal}
+            modalProduct={modalProduct}
+            modalProductHistory={modalProductHistory}
+          />
+        </Grid>
       </Grid>
     </Fragment>
   );

@@ -5,9 +5,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const ProductFormContainer = () => {
   const [product, setProduct] = useState({
-    name: "",
+    itemName: "",
     price: "",
-    quantity: "",
+    stockOnHand: "",
   });
 
   const [notification, setNotification] = useState({
@@ -16,7 +16,7 @@ const ProductFormContainer = () => {
     open: false,
   });
 
-  const { getAccessTokenSilently } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
 
   const handleStateChange = (input) => (e) => {
     setProduct({ ...product, [input]: e.target.value });
@@ -24,7 +24,7 @@ const ProductFormContainer = () => {
 
   const createProduct = async () => {
     const token = await getAccessTokenSilently();
-    const response = await createProductApi(token, product);
+    const response = await createProductApi(token, product, user.name);
     openSnackbar(response);
     clearProductState();
   };
@@ -55,9 +55,9 @@ const ProductFormContainer = () => {
 
   const clearProductState = () => {
     setProduct({
-      name: "",
+      itemName: "",
       price: "",
-      quantity: "",
+      stockOnHand: "",
     });
   };
 

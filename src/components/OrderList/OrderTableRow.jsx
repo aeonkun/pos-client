@@ -12,9 +12,17 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Button from "@material-ui/core/Button";
 import useStyles from "./OrderListStyles";
+import * as PaymentMethodConstants from "../OrderForm/constants/OrderFormConstants";
+import * as OrderStatusConstants from "./constants/OrderListConstants";
 
-const OrderTableRow = ({ order, formatDateTime, handleOpenModal }) => {
+const OrderTableRow = ({
+  order,
+  formatDateTime,
+  handleOpenModal,
+  handleOpenInvoice,
+}) => {
   const [open, setOpen] = useState(false);
+  console.log(order);
 
   const classes = useStyles();
   return (
@@ -34,6 +42,10 @@ const OrderTableRow = ({ order, formatDateTime, handleOpenModal }) => {
           {[order.customer.firstName, order.customer.lastName].join(" ")}
         </TableCell>
         <TableCell align="center">{order.customer.deliveryAddress}</TableCell>
+        <TableCell align="center">{order.customer.nearbyLandmark}</TableCell>
+        <TableCell align="center">
+          {PaymentMethodConstants.paymentMethod[order.paymentMethod]}
+        </TableCell>
         <TableCell align="center">
           {(order.totalPrice / 100).toFixed(2)}
         </TableCell>
@@ -41,7 +53,9 @@ const OrderTableRow = ({ order, formatDateTime, handleOpenModal }) => {
         <TableCell align="center">
           {formatDateTime(order.dateTimeCreated)}
         </TableCell>
-        <TableCell align="center">{order.orderStatus}</TableCell>
+        <TableCell align="center">
+          {OrderStatusConstants.orderStatuses[order.orderStatus]}
+        </TableCell>
         <TableCell align="center">
           <Button
             variant="contained"
@@ -49,7 +63,17 @@ const OrderTableRow = ({ order, formatDateTime, handleOpenModal }) => {
             color="primary"
             onClick={() => handleOpenModal(order.id)}
           >
-            Update Status
+            Update
+          </Button>
+        </TableCell>
+        <TableCell align="center">
+          <Button
+            variant="contained"
+            size="small"
+            color="primary"
+            onClick={() => handleOpenInvoice(order.id)}
+          >
+            Invoice
           </Button>
         </TableCell>
       </TableRow>
@@ -88,13 +112,10 @@ const OrderTableRow = ({ order, formatDateTime, handleOpenModal }) => {
                           {orderDetail.quantity}
                         </TableCell>
                         <TableCell align="right">
-                          {(orderDetail.unitPrice / 100).toFixed(2)}
+                          {(orderDetail.price / 100).toFixed(2)}
                         </TableCell>
                         <TableCell align="right">
-                          {(
-                            (orderDetail.unitPrice * orderDetail.quantity) /
-                            100
-                          ).toFixed(2)}
+                          {(orderDetail.total / 100).toFixed(2)}
                         </TableCell>
                       </TableRow>
                     ))

@@ -42,8 +42,20 @@ const CustomerDetails = (props) => {
             label="Shipping Address"
             fullWidth
             autoComplete="shipping address"
-            onChange={props.handleStateChange("address")}
-            defaultValue={props.order.address}
+            onChange={props.handleStateChange("deliveryAddress")}
+            defaultValue={props.order.deliveryAddress}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            required
+            id="nearbyLandmark"
+            name="nearbyLandmark"
+            label="Nearby Landmark"
+            fullWidth
+            autoComplete="nearby landmark"
+            onChange={props.handleStateChange("nearbyLandmark")}
+            defaultValue={props.order.nearbyLandmark}
           />
         </Grid>
         <Grid item xs={12} sm={6}>

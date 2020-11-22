@@ -11,6 +11,7 @@ import {
   ProductListContainer,
   AnalyticsCards,
 } from "..";
+import InventoryManagement from "../Inventory/InventoryManagement";
 
 const MainDisplay = ({ user }) => {
   const classes = useStyles();
@@ -20,6 +21,7 @@ const MainDisplay = ({ user }) => {
       <Container maxWidth="lg" className={classes.container}>
         <Grid container spacing={3}>
           <Switch>
+            <PrivateRoute path="/" exact component={OrderListContainer} />
             <PrivateRoute path="/orders" exact component={OrderListContainer} />
             <PrivateRoute
               path="/orders/create"
@@ -38,6 +40,11 @@ const MainDisplay = ({ user }) => {
               component={ProductFormContainer}
             />
             <PrivateRoute path="/analytics" exact component={AnalyticsCards} />
+            <PrivateRoute
+              path="/inventory"
+              exact
+              component={InventoryManagement}
+            />
           </Switch>
         </Grid>
       </Container>

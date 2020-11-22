@@ -20,6 +20,12 @@ const OrderTableHeader = () => {
           Delivery Address
         </TableCell>
         <TableCell align="center" className={classes.header}>
+          Nearby Landmark
+        </TableCell>
+        <TableCell align="center" className={classes.header}>
+          Payment Method
+        </TableCell>
+        <TableCell align="center" className={classes.header}>
           Total Price (₱)
         </TableCell>
         <TableCell align="center" className={classes.header}>
@@ -30,9 +36,6 @@ const OrderTableHeader = () => {
         </TableCell>
         <TableCell align="center" className={classes.header}>
           Status
-        </TableCell>
-        <TableCell align="center" className={classes.header}>
-          Status Management
         </TableCell>
       </TableRow>
     </TableHead>

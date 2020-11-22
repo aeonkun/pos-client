@@ -5,6 +5,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
+import StorageIcon from "@material-ui/icons/Storage";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 
 import { Link } from "react-router-dom";
@@ -29,6 +30,11 @@ const components = [
     url: "/products/create",
     name: "Add Product",
     icon: <PlaylistAddIcon />,
+  },
+  {
+    url: "/inventory",
+    name: "Manage Inventory",
+    icon: <StorageIcon />,
   },
 ];
 

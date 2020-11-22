@@ -5,6 +5,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./OrderFormStyles";
+import * as Constants from "./constants/OrderFormConstants";
 
 export default function Review(props) {
   const classes = useStyles();
@@ -48,9 +49,20 @@ export default function Review(props) {
             Customer Details
           </Typography>
           <Typography gutterBottom>
-            {[props.order.firstName, props.order.lastName].join(" ")}
+            {`Name: ${[props.order.firstName, props.order.lastName].join(" ")}`}
           </Typography>
-          <Typography gutterBottom>{props.order.address}</Typography>
+          <Typography
+            gutterBottom
+          >{`Address: ${props.order.deliveryAddress}`}</Typography>
+          <Typography
+            gutterBottom
+          >{`Landmark: ${props.order.nearbyLandmark}`}</Typography>
+          <Typography
+            gutterBottom
+          >{`Notes: ${props.order.additionalNotes}`}</Typography>
+          <Typography gutterBottom>{`Payment Method: ${
+            Constants.paymentMethod[props.order.paymentMethod]
+          }`}</Typography>
         </Grid>
       </Grid>
     </React.Fragment>

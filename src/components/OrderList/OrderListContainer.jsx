@@ -2,21 +2,35 @@ import React, { useState } from "react";
 import { OrderList } from "../";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
+  getOrderByIdApi,
   getOrdersApi,
   getStatusHistoryApi,
   updatePaymentAndOrderStatusApi,
 } from "../../api";
-import useSWR from "swr";
+import { CircularProgress, Grid } from "@material-ui/core";
+import useSWR, { mutate } from "swr";
 
 const OrderListContainer = () => {
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
 
   const [openModal, setOpenModal] = useState(false);
+  const [openInvoice, setOpenInvoice] = useState(false);
+  const [page, setPage] = useState(1);
+  const [rows, setRows] = useState(5);
   const [status, setStatus] = useState({
-    paymentStatus: "",
+    orderId: null,
     orderStatus: "",
-    statusHistories: [],
+    statusAndHistories: [],
   });
+
+  const handleOpenInvoice = async (id) => {
+    await getOrderById(id);
+    setOpenInvoice(true);
+  };
+
+  const handleCloseInvoice = async (id) => {
+    setOpenInvoice(false);
+  };
 
   const handleOpenModal = async (id) => {
     await getStatusAndHistory(id);
@@ -27,58 +41,76 @@ const OrderListContainer = () => {
     setOpenModal(false);
   };
 
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+    mutate(url);
+  };
+
+  const handleChangeRow = (event) => {
+    setPage(1);
+    setRows(event.target.value);
+    mutate(url);
+  };
+
   const getStatusAndHistory = async (id) => {
     const token = await getAccessTokenSilently();
     const response = await getStatusHistoryApi(token, id);
-    setStatus(response.statusandhistory);
+    status.orderId = id;
+    setStatus({ ...response, orderId: id });
   };
 
-  const getOrders = async () => {
+  //invoice todo
+  const getOrderById = async (id) => {
     const token = await getAccessTokenSilently();
-    const orderList = await getOrdersApi(token);
+    const response = await getOrderByIdApi(token, id);
+  };
+
+  const getOrders = async (page, rows) => {
+    const token = await getAccessTokenSilently();
+    const orderList = await getOrdersApi(token, page, rows);
     return orderList;
   };
 
-  //test
-  const { data, error } = useSWR("http://localhost:5000/orders", getOrders);
-
-  const updateStatusInOrderList = (id, orderStatus) => {
-    let currentOrder = data.response.orders.find((o) => o.id === id);
-    if (currentOrder) {
-      currentOrder.orderStatus = orderStatus;
-    }
-  };
+  const url = `/orders/page=${page}&rows=${rows}`;
+  const { data, error } = useSWR(url, () => getOrders(page - 1, rows));
 
   const updateStatusAndHistoryState = (input) => (e) => {
     setStatus({ ...status, [input]: e.target.value });
-    console.log(status);
   };
 
-  const updateStatus = async () => {
+  const updateStatus = async (orderId) => {
     const token = await getAccessTokenSilently();
-    await updatePaymentAndOrderStatusApi(
-      token,
-      status.id,
-      status.orderStatus,
-      user.name
-    );
-    await getStatusAndHistory(status.id);
-    updateStatusInOrderList(status.id, status.orderStatus);
+
+    await updatePaymentAndOrderStatusApi(token, orderId, status.orderStatus);
+    await getStatusAndHistory(status.orderId);
+    mutate(url);
   };
 
   if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
-  if (data.total == 0) return <div>No orders to show</div>;
+  if (!data)
+    return (
+      <Grid container justify="center" alignItems="center">
+        <CircularProgress />
+      </Grid>
+    );
+  if (data.orders.length === 0) return <div>No orders to show</div>;
 
   return (
     <OrderList
       data={data}
       openModal={openModal}
+      openInvoice={openInvoice}
+      handleOpenInvoice={handleOpenInvoice}
+      handleCloseInvoice={handleCloseInvoice}
       handleOpenModal={handleOpenModal}
       handleCloseModal={handleCloseModal}
       status={status}
       updateStatusAndHistoryState={updateStatusAndHistoryState}
       updateStatus={updateStatus}
+      handleChangePage={handleChangePage}
+      page={page}
+      handleChangeRow={handleChangeRow}
+      rows={rows}
     />
   );
 };

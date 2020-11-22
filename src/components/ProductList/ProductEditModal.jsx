@@ -7,38 +7,38 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import useStyles from "./ProductModalStyles";
-import { Button, Divider } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 
-const ProductModal = ({ openModal, handleCloseModal, modalProduct }) => {
+const ProductEditModal = ({
+  editProductModalOpen,
+  handleCloseEditProductModal,
+  modalProduct,
+  modalProductHistory,
+  handleModalProductUpdate,
+  updateProduct,
+}) => {
   const classes = useStyles();
 
+  console.log("inmodal");
+  console.log(modalProductHistory);
   return (
     <Fragment>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
-        open={openModal}
-        onClose={handleCloseModal}
+        open={editProductModalOpen}
+        onClose={handleCloseEditProductModal}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 200,
         }}
       >
-        <Fade in={openModal}>
+        <Fade in={editProductModalOpen}>
           <Paper elevation={3}>
             <Grid container>
               <Grid item xs={12}>
-                <Typography variant="h6" gutterBottom>
-                  {modalProduct.item_name}
-                </Typography>
-                <Typography variant="body" gutterBottom>
-                  {`Stocks: ${modalProduct.quantity} | Price: ${modalProduct.price}`}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Divider className={classes.divider} />
                 <Grid
                   container
                   direction="row"
@@ -55,27 +55,27 @@ const ProductModal = ({ openModal, handleCloseModal, modalProduct }) => {
                       id="name"
                       label="Name"
                       fullWidth
-                      defaultValue={modalProduct.item_name}
+                      defaultValue={modalProduct.itemName}
+                      onChange={handleModalProductUpdate("itemName")}
                     />
                   </Grid>
-                  <Grid item xs={6} className={classes.buttonWrapper}>
-                    <TextField
-                      id="quantity"
-                      label="Quantity"
-                      fullWidth
-                      defaultValue={modalProduct.quantity}
-                    />
-                  </Grid>
-                  <Grid item xs={6} className={classes.buttonWrapper}>
+                  <Grid item xs={12} className={classes.buttonWrapper}>
                     <TextField
                       id="price"
                       label="Price"
+                      type="number"
+                      inputProps={{ min: "0", step: "1" }}
                       fullWidth
                       defaultValue={modalProduct.price}
+                      onChange={handleModalProductUpdate("price")}
                     />
                   </Grid>
                   <Grid item xs={4} className={classes.buttonWrapper}>
-                    <Button variant="contained" color="primary">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => updateProduct()}
+                    >
                       Save
                     </Button>
                   </Grid>
@@ -89,4 +89,4 @@ const ProductModal = ({ openModal, handleCloseModal, modalProduct }) => {
   );
 };
 
-export default ProductModal;
+export default ProductEditModal;
