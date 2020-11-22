@@ -1,17 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
-import config from "./auth_config.json";
 
 import App from "./App";
 
 ReactDOM.render(
   <Auth0Provider
-    domain={config.domain}
-    clientId={config.clientId}
-    redirectUri={config.redirectUri}
-    audience={config.audience}
+    domain={process.env.REACT_APP_DOMAIN}
+    clientId={process.env.REACT_APP_CLIENT_ID}
+    redirectUri={process.env.REACT_APP_REDIRECT_URI}
+    audience={process.env.REACT_APP_AUDIENCE}
   >
     <App />
   </Auth0Provider>,
