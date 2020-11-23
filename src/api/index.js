@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "https://159.65.6.153:8080/api/v1";
+const url = "https://159.65.6.153/oms/api/v1";
 
 export const getProductsApi = async (token) => {
   try {
