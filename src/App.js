@@ -5,7 +5,6 @@ import { DashboardContainer, LoginRedirect } from "../src/components";
 
 const App = () => {
   const { isLoading, isAuthenticated, error } = useAuth0();
-  console.log(process.env);
 
   if (isLoading) {
     return (
