@@ -27,7 +27,7 @@ export { default as AdjustmentList } from "./Inventory/AdjustmentList";
 export { default as PageSelector } from "./OrderList/PageSelector";
 
 // Invoice
-export { default as Invoice } from "./OrderList/Invoice";
+export { default as InvoiceDisplay } from "./Invoice/InvoiceDisplay";
 
 // Product
 export { default as ProductForm } from "./ProductForm/ProductForm";

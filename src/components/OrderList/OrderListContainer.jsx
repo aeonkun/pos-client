@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { OrderList } from "../";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
-  getOrderByIdApi,
   getOrdersApi,
   getStatusHistoryApi,
   updatePaymentAndOrderStatusApi,
@@ -14,7 +13,6 @@ const OrderListContainer = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   const [openModal, setOpenModal] = useState(false);
-  const [openInvoice, setOpenInvoice] = useState(false);
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState(5);
   const [status, setStatus] = useState({
@@ -22,14 +20,17 @@ const OrderListContainer = () => {
     orderStatus: "",
     statusAndHistories: [],
   });
+  const [openInvoiceModal, setOpenInvoiceModal] = useState(false);
+  const [currentOrder, setCurrentOrder] = useState(null);
 
-  const handleOpenInvoice = async (id) => {
-    await getOrderById(id);
-    setOpenInvoice(true);
+  const handleOpenInvoiceModal = async (orderId) => {
+    setCurrentOrder(data.orders.find((order) => order.id === orderId));
+    setOpenInvoiceModal(true);
   };
 
-  const handleCloseInvoice = async (id) => {
-    setOpenInvoice(false);
+  const handleCloseInvoiceModal = () => {
+    setOpenInvoiceModal(false);
+    setCurrentOrder(null);
   };
 
   const handleOpenModal = async (id) => {
@@ -57,12 +58,6 @@ const OrderListContainer = () => {
     const response = await getStatusHistoryApi(token, id);
     status.orderId = id;
     setStatus({ ...response, orderId: id });
-  };
-
-  //invoice todo
-  const getOrderById = async (id) => {
-    const token = await getAccessTokenSilently();
-    const response = await getOrderByIdApi(token, id);
   };
 
   const getOrders = async (page, rows) => {
@@ -99,9 +94,6 @@ const OrderListContainer = () => {
     <OrderList
       data={data}
       openModal={openModal}
-      openInvoice={openInvoice}
-      handleOpenInvoice={handleOpenInvoice}
-      handleCloseInvoice={handleCloseInvoice}
       handleOpenModal={handleOpenModal}
       handleCloseModal={handleCloseModal}
       status={status}
@@ -111,6 +103,10 @@ const OrderListContainer = () => {
       page={page}
       handleChangeRow={handleChangeRow}
       rows={rows}
+      handleOpenInvoiceModal={handleOpenInvoiceModal}
+      handleCloseInvoiceModal={handleCloseInvoiceModal}
+      openInvoiceModal={openInvoiceModal}
+      currentOrder={currentOrder}
     />
   );
 };

@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import CustomerDetails from "./CustomerDetails";
 import OrderDetails from "./OrderDetails";
 import Review from "./Review";
+import { Grid, CircularProgress } from "@material-ui/core";
 import { submitOrderApi } from "../../api";
 import { useAuth0 } from "@auth0/auth0-react";
 import useStyles from "./OrderFormStyles";
@@ -63,7 +64,7 @@ const OrderForm = () => {
     productId,
     name,
     quantity,
-    unitPrice,
+    price,
     totalPrice,
   }) => {
     //get index of given object if object is already present in the array. Index will be -1 if it is not present
@@ -82,26 +83,17 @@ const OrderForm = () => {
         details.splice(index, 1);
         console.log(details);
         setOrder({ order, orderDetails: details });
-        // order.orderDetails.splice(index, 1);
       } else {
-        console.log(`quant not zero or null : ${quantity}`);
         setOrder(
           order,
           (order.orderDetails[index] = {
             productId,
             name,
             quantity,
-            unitPrice,
+            price,
             totalPrice,
           })
         );
-        // order.orderDetails[index] = {
-        //   productId,
-        //   name,
-        //   quantity,
-        //   unitPrice,
-        //   totalPrice,
-        // };
       }
     } else {
       if (quantity && quantity !== "0") {
@@ -109,7 +101,7 @@ const OrderForm = () => {
           ...order,
           orderDetails: [
             ...order.orderDetails,
-            { productId, name, quantity, unitPrice, totalPrice },
+            { productId, name, quantity, price, totalPrice },
           ],
         });
       }
@@ -162,12 +154,20 @@ const OrderForm = () => {
           <Fragment>
             {activeStep === steps.length ? (
               <Fragment>
-                <Typography variant="h5" gutterBottom>
-                  Thank you for your order.
-                </Typography>
-                <Typography variant="subtitle1">
-                  {`Your order has been successfully placed! Order Number: ${orderNumber}`}
-                </Typography>
+                {orderNumber !== null ? (
+                  <Fragment>
+                    <Typography variant="h5" gutterBottom>
+                      Thank you for your order.
+                    </Typography>
+                    <Typography variant="subtitle1">
+                      {`Your order has been successfully placed! Order Number: ${orderNumber}`}
+                    </Typography>
+                  </Fragment>
+                ) : (
+                  <Grid container justify="center" alignItems="center">
+                    <CircularProgress />
+                  </Grid>
+                )}
               </Fragment>
             ) : (
               <Fragment>

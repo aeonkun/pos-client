@@ -63,7 +63,7 @@ const ProductListContainer = () => {
         user.name
       );
       console.log(response);
-      if (response == true) {
+      if (response === true) {
         //Manually revalidate products
         mutate(url);
         setEditProductModalOpen(false);

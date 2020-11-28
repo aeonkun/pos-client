@@ -25,7 +25,7 @@ function formatDateTime(dateTime) {
 const AdjustmentList = () => {
   const classes = useStyles();
 
-  const { getAccessTokenSilently, user } = useAuth0();
+  const { getAccessTokenSilently } = useAuth0();
 
   const [page, setPage] = useState(1);
   const [rows, setRows] = useState(5);

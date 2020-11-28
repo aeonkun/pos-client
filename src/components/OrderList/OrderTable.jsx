@@ -4,7 +4,6 @@ import { Table, TableContainer, TableBody, Paper } from "@material-ui/core";
 
 const OrderTable = ({
   data,
-  handleOpenInvoice,
   handleClose,
   handleOpenModal,
   formatDateTime,
@@ -12,6 +11,7 @@ const OrderTable = ({
   page,
   handleChangeRow,
   rows,
+  handleOpenInvoiceModal,
 }) => {
   return (
     <Fragment>
@@ -23,11 +23,11 @@ const OrderTable = ({
               data.orders.map((order) => (
                 <OrderTableRow
                   key={order.id}
-                  handleOpenInvoice={handleOpenInvoice}
                   order={order}
                   handleOpenModal={handleOpenModal}
                   handleClose={handleClose}
                   formatDateTime={formatDateTime}
+                  handleOpenInvoiceModal={handleOpenInvoiceModal}
                 />
               ))
             ) : (

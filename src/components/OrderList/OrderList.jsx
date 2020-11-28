@@ -1,12 +1,9 @@
 import React, { Fragment } from "react";
-import { OrderTableContainer, OrderStatusModal, Invoice } from "../";
+import { OrderTableContainer, OrderStatusModal, InvoiceDisplay } from "../";
 
 const OrderList = ({
   data,
   openModal,
-  openInvoice,
-  handleOpenInvoice,
-  handleCloseInvoice,
   handleOpenModal,
   handleCloseModal,
   status,
@@ -16,17 +13,21 @@ const OrderList = ({
   page,
   handleChangeRow,
   rows,
+  handleOpenInvoiceModal,
+  handleCloseInvoiceModal,
+  openInvoiceModal,
+  currentOrder,
 }) => {
   return (
     <Fragment>
       <OrderTableContainer
         data={data}
         handleOpenModal={handleOpenModal}
-        handleOpenInvoice={handleOpenInvoice}
         handleChangePage={handleChangePage}
         page={page}
         handleChangeRow={handleChangeRow}
         rows={rows}
+        handleOpenInvoiceModal={handleOpenInvoiceModal}
       />
       <OrderStatusModal
         openModal={openModal}
@@ -35,10 +36,11 @@ const OrderList = ({
         updateStatusAndHistoryState={updateStatusAndHistoryState}
         updateStatus={updateStatus}
       />
-      <Invoice
-        openInvoice={openInvoice}
-        handleOpenInvoice={handleOpenInvoice}
-        handleCloseInvoice={handleCloseInvoice}
+      <InvoiceDisplay
+        handleOpenInvoiceModal={handleOpenInvoiceModal}
+        handleCloseInvoiceModal={handleCloseInvoiceModal}
+        openInvoiceModal={openInvoiceModal}
+        currentOrder={currentOrder}
       />
     </Fragment>
   );

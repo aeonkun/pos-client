@@ -9,6 +9,8 @@ import {
   TableCell,
   TableBody,
   Paper,
+  Grid,
+  CircularProgress,
 } from "@material-ui/core";
 import { format } from "date-fns";
 import useStyles from "./ProductListStyles";
@@ -36,7 +38,12 @@ const ProductTransactions = ({ modalProduct }) => {
   }, []);
 
   console.log(transactions);
-  if (!transactions) return <div>Loading...</div>;
+  if (!transactions)
+    return (
+      <Grid container justify="center" alignItems="center">
+        <CircularProgress />
+      </Grid>
+    );
   return (
     <Fragment>
       {transactions.length !== 0 ? (
@@ -44,12 +51,24 @@ const ProductTransactions = ({ modalProduct }) => {
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>OrderNo.</TableCell>
-                <TableCell align="center">Customer Name</TableCell>
-                <TableCell align="center">Quantity</TableCell>
-                <TableCell align="center">Total</TableCell>
-                <TableCell align="center">Date Created</TableCell>
-                <TableCell align="center">Status</TableCell>
+                <TableCell align="center">
+                  <strong>OrderNo.</strong>
+                </TableCell>
+                <TableCell align="center">
+                  <strong>Customer Name</strong>
+                </TableCell>
+                <TableCell align="center">
+                  <strong>Quantity</strong>
+                </TableCell>
+                <TableCell align="center">
+                  <strong>Total</strong>
+                </TableCell>
+                <TableCell align="center">
+                  <strong>Date Created</strong>
+                </TableCell>
+                <TableCell align="center">
+                  <strong>Status</strong>
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -10,22 +10,22 @@ function formatDateTime(dateTime) {
 const OrderTableContainer = ({
   data,
   handleOpenModal,
-  handleOpenInvoice,
   handleChangePage,
   page,
   handleChangeRow,
   rows,
+  handleOpenInvoiceModal,
 }) => {
   return (
     <OrderTable
       data={data}
-      handleOpenInvoice={handleOpenInvoice}
       handleOpenModal={handleOpenModal}
       formatDateTime={formatDateTime}
       handleChangePage={handleChangePage}
       page={page}
       handleChangeRow={handleChangeRow}
       rows={rows}
+      handleOpenInvoiceModal={handleOpenInvoiceModal}
     />
   );
 };

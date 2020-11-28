@@ -12,7 +12,6 @@ import {
   ListItemText,
 } from "@material-ui/core";
 import { ProductDetailsModal } from "..";
-import ProductEditHistory from "./ProductEditHistory";
 import ProductEditModal from "./ProductEditModal";
 
 const ProductList = ({

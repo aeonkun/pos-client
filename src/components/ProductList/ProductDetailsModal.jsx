@@ -8,7 +8,21 @@ import useStyles from "./ProductModalStyles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Toolbar,
+  IconButton,
+  Typography,
+  Slide,
+} from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 import { ProductOverview, ProductTransactions, ProductEditHistory } from "../";
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const ProductDetailsModal = ({
   modalOpen,
@@ -25,19 +39,29 @@ const ProductDetailsModal = ({
 
   return (
     <Fragment>
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={modalOpen}
+      <Dialog
+        fullScreen
         onClose={handleCloseModal}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 200,
-        }}
+        aria-labelledby="customized-dialog-title"
+        open={modalOpen}
+        TransitionComponent={Transition}
       >
-        <Fade in={modalOpen}>
+        <AppBar position="static" className={classes.appBar}>
+          <Toolbar>
+            <IconButton
+              edge="start"
+              color="inherit"
+              onClick={handleCloseModal}
+              aria-label="close"
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              Product Details
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <DialogContent dividers>
           <Paper elevation={3}>
             <Grid container>
               <Grid item xs={12}>
@@ -66,8 +90,8 @@ const ProductDetailsModal = ({
               </Grid>
             </Grid>
           </Paper>
-        </Fade>
-      </Modal>
+        </DialogContent>
+      </Dialog>
     </Fragment>
   );
 };

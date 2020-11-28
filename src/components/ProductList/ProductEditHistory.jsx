@@ -13,7 +13,6 @@ const ProductEditHistory = ({ productHistories }) => {
 
   return (
     <Fragment>
-      <Typography variant="h6">Product History</Typography>
       <List dense={true} className={classes.statusHistory}>
         {productHistories.length !== 0 ? (
           productHistories.map((history) => (

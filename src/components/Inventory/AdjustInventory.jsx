@@ -24,6 +24,8 @@ const AdjustInventory = () => {
   const [notes, setNotes] = useState(null);
 
   useEffect(() => {
+    const url = `/products`;
+
     mutate(url);
   }, []);
 
@@ -72,6 +74,7 @@ const AdjustInventory = () => {
   };
 
   const url = `/products`;
+
   const { data, error } = useSWR(url, getProducts);
 
   const classes = useStyles();

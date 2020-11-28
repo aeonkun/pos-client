@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Typography, Grid } from "@material-ui/core";
-import useSWR, { mutate } from "swr";
+import { Typography, Grid, CircularProgress } from "@material-ui/core";
 import { getProductByIdApi } from "../../api";
 import { format } from "date-fns";
 
@@ -25,7 +24,12 @@ const ProductOverview = ({ modalProduct }) => {
     getProductById(modalProduct.id);
   }, []);
 
-  if (!productDetails) return <div>Loading... </div>;
+  if (!productDetails)
+    return (
+      <Grid container justify="center" alignItems="center">
+        <CircularProgress />
+      </Grid>
+    );
   console.log(productDetails.itemName);
   return (
     <Fragment>

@@ -19,7 +19,7 @@ const OrderTableRow = ({
   order,
   formatDateTime,
   handleOpenModal,
-  handleOpenInvoice,
+  handleOpenInvoiceModal,
 }) => {
   const [open, setOpen] = useState(false);
   console.log(order);
@@ -71,7 +71,7 @@ const OrderTableRow = ({
             variant="contained"
             size="small"
             color="primary"
-            onClick={() => handleOpenInvoice(order.id)}
+            onClick={() => handleOpenInvoiceModal(order.id)}
           >
             Invoice
           </Button>
