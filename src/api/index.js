@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "https://rizalventures.org/oms/api/v1";
+const url = "http://localhost:8080/api/v1";
 
 export const getProductsApi = async (token) => {
   try {
@@ -270,6 +270,32 @@ export const getInventoryAdjustmentsApi = async (token, page, rows) => {
   try {
     const { data } = await axios.get(`${url}/inventories/adjustments`, {
       params: { page: Number(page), rows: Number(rows) },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+export const getOrderActivityApi = async (token, timeUnit) => {
+  try {
+    const { data } = await axios.get(`${url}/analytics/orderactivity`, {
+      params: { timeUnit: timeUnit },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+export const getSalesActivitySummaryApi = async (token, timeUnit) => {
+  try {
+    const { data } = await axios.get(`${url}/analytics/salesactivity`, {
+      params: { timeUnit: timeUnit },
       headers: {
         Authorization: `Bearer ${token}`,
       },

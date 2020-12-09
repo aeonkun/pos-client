@@ -45,6 +45,4 @@ export { default as LogInButton } from "./Auth/LogInButton";
 export { default as LogOutButton } from "./Auth/LogOutButton";
 
 // Analytics
-export { default as OrdersCard } from "./Analytics/OrdersCard";
-export { default as AnalyticsCards } from "./Analytics/AnalyticsCards";
-export { default as IncomeCard } from "./Analytics/IncomeCard";
+export { default as Analytics } from "./Analytics/Analytics";

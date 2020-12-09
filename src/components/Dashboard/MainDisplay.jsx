@@ -9,7 +9,7 @@ import {
   OrderListContainer,
   ProductFormContainer,
   ProductListContainer,
-  AnalyticsCards,
+  Analytics,
   InvoiceDisplay,
 } from "..";
 import InventoryManagement from "../Inventory/InventoryManagement";
@@ -40,7 +40,7 @@ const MainDisplay = ({ user }) => {
               exact
               component={ProductFormContainer}
             />
-            <PrivateRoute path="/analytics" exact component={AnalyticsCards} />
+            <PrivateRoute path="/analytics" exact component={Analytics} />
             <PrivateRoute
               path="/inventory"
               exact

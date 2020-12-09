@@ -1,7 +1,4 @@
 import React, { Fragment, useState } from "react";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./ProductModalStyles";
@@ -10,7 +7,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import {
   Dialog,
-  DialogTitle,
   DialogContent,
   Toolbar,
   IconButton,

@@ -31,7 +31,7 @@ const ProductList = ({
     <Fragment>
       <Grid container>
         <Grid item xs={12}>
-          <Typography variant="h5">Products</Typography>
+          <Typography variant="h4">Products</Typography>
         </Grid>
         <Grid item xs={12}>
           {data.length === 0 ? (

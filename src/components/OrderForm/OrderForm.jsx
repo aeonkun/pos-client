@@ -141,7 +141,7 @@ const OrderForm = () => {
       <CssBaseline />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <Typography component="h1" variant="h4" align="center">
+          <Typography variant="h3" align="center">
             Create Order
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>

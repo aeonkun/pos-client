@@ -22,7 +22,7 @@ const ProductForm = ({
       <CssBaseline />
       <main className={classes.layout}>
         <Paper className={classes.paper}>
-          <Typography component="h1" variant="h4" align="center">
+          <Typography component="h1" variant="h3" align="center">
             Create New Product
           </Typography>
           <form noValidate autoComplete="off">

@@ -34,12 +34,14 @@ const OrderListContainer = () => {
   };
 
   const handleOpenModal = async (id) => {
+    setCurrentOrder(data.orders.find((order) => order.id === id));
     await getStatusAndHistory(id);
     setOpenModal(true);
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
+    setCurrentOrder(null);
   };
 
   const handleChangePage = (event, newPage) => {

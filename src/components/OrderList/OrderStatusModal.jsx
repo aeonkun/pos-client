@@ -21,6 +21,7 @@ function formatDateTime(dateTime) {
 }
 
 const OrderStatusModal = ({
+  currentOrder,
   openModal,
   handleCloseModal,
   status,
@@ -28,6 +29,8 @@ const OrderStatusModal = ({
   updateStatus,
 }) => {
   const classes = useStyles();
+  console.log("inmodal");
+  console.log(currentOrder);
 
   return (
     <div>

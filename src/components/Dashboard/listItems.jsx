@@ -6,11 +6,16 @@ import StorefrontIcon from "@material-ui/icons/Storefront";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
 import StorageIcon from "@material-ui/icons/Storage";
+import BarChartIcon from "@material-ui/icons/BarChart";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
-
 import { Link } from "react-router-dom";
 
 const components = [
+  {
+    url: "/analytics",
+    name: "Analytics",
+    icon: <BarChartIcon />,
+  },
   {
     url: "/orders",
     name: "Orders",
