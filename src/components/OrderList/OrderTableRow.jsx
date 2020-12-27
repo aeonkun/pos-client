@@ -12,6 +12,8 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Button from "@material-ui/core/Button";
 import useStyles from "./OrderListStyles";
+import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import * as PaymentMethodConstants from "../OrderForm/constants/OrderFormConstants";
 import * as OrderStatusConstants from "./constants/OrderListConstants";
 
@@ -28,6 +30,12 @@ const OrderTableRow = ({
   return (
     <Fragment>
       <TableRow className={classes.root}>
+        {order.hasStockIssues === true && (
+          <TableCell>
+            <ErrorOutlineIcon color="error"></ErrorOutlineIcon>
+          </TableCell>
+        )}
+        {order.hasStockIssues === false && <TableCell />}
         <TableCell>
           <IconButton
             aria-label="expand row"
@@ -61,6 +69,10 @@ const OrderTableRow = ({
             variant="contained"
             size="small"
             color="primary"
+            disabled={
+              order.orderStatus === "COMPLETED" ||
+              order.orderStatus === "CANCELLED"
+            }
             onClick={() => handleOpenModal(order.id)}
           >
             Update
@@ -87,6 +99,7 @@ const OrderTableRow = ({
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
+                    <TableCell />
                     <TableCell align="left" className={classes.header}>
                       Product Name
                     </TableCell>
@@ -105,6 +118,12 @@ const OrderTableRow = ({
                   {order.orderDetails !== null ? (
                     order.orderDetails.map((orderDetail) => (
                       <TableRow key={orderDetail.productId}>
+                        {orderDetail.hasEnoughStock === false && (
+                          <TableCell>
+                            <ErrorOutlineIcon color="error"></ErrorOutlineIcon>
+                          </TableCell>
+                        )}
+                        {orderDetail.hasEnoughStock === true && <TableCell />}
                         <TableCell component="th" scope="row">
                           {orderDetail.productName}
                         </TableCell>

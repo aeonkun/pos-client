@@ -10,6 +10,29 @@ const ProductFormContainer = () => {
     stockOnHand: "",
   });
 
+  const [itemName, setItemName] = useState(null);
+  const [price, setPrice] = useState(null);
+  const [stockOnHand, setStockOnHand] = useState(null);
+
+  const handleItemNameStateChange = (event) => {
+    setItemName(event.target.value);
+  };
+
+  const handlePriceStateChange = (event) => {
+    setPrice(parseFloat(event.target.value));
+    console.log(price);
+  };
+
+  const handleStockOnHandStateChange = (event) => {
+    setStockOnHand(event.target.value);
+  };
+
+  const clearStates = () => {
+    setItemName("");
+    setPrice(null);
+    setStockOnHand("");
+  };
+
   const [notification, setNotification] = useState({
     status: "",
     message: "",
@@ -24,8 +47,10 @@ const ProductFormContainer = () => {
 
   const createProduct = async () => {
     const token = await getAccessTokenSilently();
-    const response = await createProductApi(token, product, user.name);
+    const testProduct = { itemName, price: price * 100, stockOnHand };
+    const response = await createProductApi(token, testProduct, user.name);
     openSnackbar(response);
+    clearStates();
     clearProductState();
   };
 
@@ -63,6 +88,13 @@ const ProductFormContainer = () => {
 
   return (
     <ProductForm
+      itemName={itemName}
+      price={price}
+      stockOnHand={stockOnHand}
+      handleItemNameStateChange={handleItemNameStateChange}
+      handlePriceStateChange={handlePriceStateChange}
+      handleStockOnHandStateChange={handleStockOnHandStateChange}
+      clearStates={clearStates}
       handleStateChange={handleStateChange}
       product={product}
       createProduct={createProduct}

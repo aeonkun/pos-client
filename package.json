@@ -18,6 +18,7 @@
     "react": "^16.13.1",
     "react-countup": "^4.3.3",
     "react-dom": "^16.13.1",
+    "react-number-format": "^4.4.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.1",
     "react-use-auth": "^0.7.5",

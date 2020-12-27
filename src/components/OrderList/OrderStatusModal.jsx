@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
@@ -14,6 +14,7 @@ import Divider from "@material-ui/core/Divider";
 import { format } from "date-fns";
 import * as Constants from "./constants/OrderListConstants";
 import useStyles from "./OrderListStyles";
+import { CircularProgress } from "@material-ui/core";
 
 function formatDateTime(dateTime) {
   const date = new Date(dateTime);
@@ -21,16 +22,38 @@ function formatDateTime(dateTime) {
 }
 
 const OrderStatusModal = ({
-  currentOrder,
   openModal,
   handleCloseModal,
   status,
   updateStatusAndHistoryState,
   updateStatus,
+  currentOrder,
 }) => {
   const classes = useStyles();
-  console.log("inmodal");
-  console.log(currentOrder);
+
+  if (currentOrder == null)
+    return (
+      <Modal
+        className={classes.modal}
+        open={openModal}
+        onClose={() => handleCloseModal()}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={openModal}>
+          <div className={classes.paper}>
+            <Grid container justify="center" alignItems="center">
+              <CircularProgress />
+            </Grid>
+          </div>
+        </Fade>
+      </Modal>
+    );
+
+  console.log(status);
 
   return (
     <div>
@@ -59,15 +82,24 @@ const OrderStatusModal = ({
                   fullWidth
                   onChange={updateStatusAndHistoryState("orderStatus")}
                 >
-                  {Object.values(Constants.orderStatuses).map((status) => (
-                    <MenuItem
-                      value={Object.keys(Constants.orderStatuses).find(
-                        (key) => Constants.orderStatuses[key] === status
-                      )}
-                    >
-                      {status}
+                  <MenuItem value={currentOrder.orderStatus}>
+                    {Constants.orderStatuses[currentOrder.orderStatus]}
+                  </MenuItem>
+                  {Constants.orderStatuses[currentOrder.orderStatus] ===
+                    Constants.orderStatuses.NEW && (
+                    <MenuItem value={"CONFIRMED"}>
+                      {Constants.orderStatuses.CONFIRMED}
                     </MenuItem>
-                  ))}
+                  )}
+                  {Constants.orderStatuses[currentOrder.orderStatus] ===
+                    Constants.orderStatuses.CONFIRMED && (
+                    <MenuItem value={"COMPLETED"}>
+                      {Constants.orderStatuses.COMPLETED}
+                    </MenuItem>
+                  )}
+                  <MenuItem value={"CANCELLED"}>
+                    {Constants.orderStatuses.CANCELLED}
+                  </MenuItem>
                 </Select>
               </Grid>
               <Grid

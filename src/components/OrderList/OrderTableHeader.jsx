@@ -10,6 +10,7 @@ const OrderTableHeader = () => {
     <TableHead>
       <TableRow>
         <TableCell />
+        <TableCell />
         <TableCell align="center" className={classes.header}>
           Order ID
         </TableCell>

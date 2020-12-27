@@ -6,6 +6,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import useSWR from "swr";
 import { getOrderActivityApi } from "../../api";
 import { CircularProgress } from "@material-ui/core";
+import * as Constants from "../OrderList/constants/OrderListConstants";
 
 const OrderActivity = ({ timeUnit }) => {
   const { getAccessTokenSilently } = useAuth0();
@@ -48,7 +49,7 @@ const OrderActivity = ({ timeUnit }) => {
                 <Grid item xs={12 / data.length}>
                   <OrderStatusCard
                     number={item.number}
-                    status={item.orderStatus}
+                    status={Constants.orderStatuses[item.orderStatus]}
                   ></OrderStatusCard>
                 </Grid>
               ))}

@@ -126,6 +126,9 @@ export const getOrdersApi = async (token, page, rows) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.log("raw");
+    console.log(data);
+
     return data;
   } catch (error) {}
 };
@@ -161,7 +164,8 @@ export const getOrderByIdApi = async (token, id) => {
 export const updatePaymentAndOrderStatusApi = async (
   token,
   orderId,
-  orderStatus
+  orderStatus,
+  username
 ) => {
   try {
     const id = orderId;
@@ -169,6 +173,7 @@ export const updatePaymentAndOrderStatusApi = async (
       url + `/orders/${id}/status`,
       {
         orderStatus,
+        username,
       },
       {
         headers: {
@@ -295,6 +300,19 @@ export const getOrderActivityApi = async (token, timeUnit) => {
 export const getSalesActivitySummaryApi = async (token, timeUnit) => {
   try {
     const { data } = await axios.get(`${url}/analytics/salesactivity`, {
+      params: { timeUnit: timeUnit },
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+export const getProductSalesApi = async (token, timeUnit) => {
+  try {
+    const { data } = await axios.get(`${url}/analytics/productsales`, {
       params: { timeUnit: timeUnit },
       headers: {
         Authorization: `Bearer ${token}`,

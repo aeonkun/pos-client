@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { OrderList } from "../";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
+  getOrderByIdApi,
   getOrdersApi,
   getStatusHistoryApi,
   updatePaymentAndOrderStatusApi,
@@ -10,7 +11,7 @@ import { CircularProgress, Grid } from "@material-ui/core";
 import useSWR, { mutate } from "swr";
 
 const OrderListContainer = () => {
-  const { getAccessTokenSilently } = useAuth0();
+  const { getAccessTokenSilently, user } = useAuth0();
 
   const [openModal, setOpenModal] = useState(false);
   const [page, setPage] = useState(1);
@@ -30,18 +31,17 @@ const OrderListContainer = () => {
 
   const handleCloseInvoiceModal = () => {
     setOpenInvoiceModal(false);
-    setCurrentOrder(null);
   };
 
   const handleOpenModal = async (id) => {
-    setCurrentOrder(data.orders.find((order) => order.id === id));
+    await getOrderById(id);
     await getStatusAndHistory(id);
+
     setOpenModal(true);
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
-    setCurrentOrder(null);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -68,6 +68,14 @@ const OrderListContainer = () => {
     return orderList;
   };
 
+  const getOrderById = async (id) => {
+    const token = await getAccessTokenSilently();
+    const order = await getOrderByIdApi(token, id);
+    setCurrentOrder(order);
+
+    return order;
+  };
+
   const url = `/orders/page=${page}&rows=${rows}`;
   const { data, error } = useSWR(url, () => getOrders(page - 1, rows));
 
@@ -77,8 +85,14 @@ const OrderListContainer = () => {
 
   const updateStatus = async (orderId) => {
     const token = await getAccessTokenSilently();
+    const username = user.name;
 
-    await updatePaymentAndOrderStatusApi(token, orderId, status.orderStatus);
+    await updatePaymentAndOrderStatusApi(
+      token,
+      orderId,
+      status.orderStatus,
+      username
+    );
     await getStatusAndHistory(status.orderId);
     mutate(url);
   };

@@ -17,9 +17,9 @@ const App = () => {
     return <div>Oops... {error.message}</div>;
   }
   if (isAuthenticated) {
-    return <DashboardContainer path="/dashboard" />;
+    return <DashboardContainer path="/analytics" />;
   } else {
-    return <LoginRedirect path="/login" />;
+    return <LoginRedirect path="/authorize" />;
   }
 };
 

@@ -30,7 +30,7 @@ const OrderList = ({
         handleOpenInvoiceModal={handleOpenInvoiceModal}
       />
       <OrderStatusModal
-        data={data}
+        currentOrder={currentOrder}
         openModal={openModal}
         handleCloseModal={handleCloseModal}
         status={status}

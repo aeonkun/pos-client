@@ -8,8 +8,37 @@ import Button from "@material-ui/core/Button";
 import { Alert } from "@material-ui/lab";
 import Snackbar from "@material-ui/core/Snackbar";
 import useStyles from "./ProductFormStyles";
+import NumberFormat from "react-number-format";
+
+function NumberFormatCustom(props) {
+  const { inputRef, onChange, ...other } = props;
+
+  return (
+    <NumberFormat
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: props.name,
+            value: values.value,
+          },
+        });
+      }}
+      thousandSeparator
+      isNumericString
+      prefix="₱"
+    />
+  );
+}
 
 const ProductForm = ({
+  itemName,
+  price,
+  stockOnHand,
+  handleItemNameStateChange,
+  handlePriceStateChange,
+  handleStockOnHandStateChange,
   handleStateChange,
   product,
   createProduct,
@@ -33,8 +62,8 @@ const ProductForm = ({
                   id="standard-required"
                   label="Product Name"
                   fullWidth
-                  onChange={handleStateChange("itemName")}
-                  value={product.itemName}
+                  onChange={handleItemNameStateChange}
+                  value={itemName}
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -43,13 +72,15 @@ const ProductForm = ({
                   id="standard-number"
                   label="Price"
                   fullWidth
-                  type="number"
                   inputProps={{ min: "0" }}
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={handleStateChange("price")}
-                  value={product.price}
+                  onChange={handlePriceStateChange}
+                  value={price}
+                  InputProps={{
+                    inputComponent: NumberFormatCustom,
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={3}>
@@ -63,8 +94,8 @@ const ProductForm = ({
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  onChange={handleStateChange("stockOnHand")}
-                  value={product.stockOnHand}
+                  onChange={handleStockOnHandStateChange}
+                  value={stockOnHand}
                 />
               </Grid>
             </Grid>
