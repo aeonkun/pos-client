@@ -1,10 +1,10 @@
 import axios from "axios";
 
 //local api
-const url = "http://localhost:8080/api/v1";
+// const url = "http://localhost:8080/api/v1";
 
 // server api
-// const url = "https://rizalventures.org/oms/api/v1";
+const url = "https://rizalventures.org/oms/api/v1";
 
 export const getProductsApi = async (token) => {
   try {
