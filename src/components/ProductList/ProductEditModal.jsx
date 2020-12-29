@@ -19,8 +19,6 @@ const ProductEditModal = ({
 }) => {
   const classes = useStyles();
 
-  console.log("inmodal");
-  console.log(modalProductHistory);
   return (
     <Fragment>
       <Modal

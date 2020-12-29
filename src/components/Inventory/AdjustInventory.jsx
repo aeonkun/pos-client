@@ -30,7 +30,6 @@ const AdjustInventory = () => {
   }, []);
 
   const handleChangeCurrentProduct = (event) => {
-    console.log(event.target.value);
     if (event.target.value === "default") {
       setCurrentProduct(null);
       setAdjustedStockOnHand(0);
@@ -39,16 +38,12 @@ const AdjustInventory = () => {
         products.find((product) => product.id === event.target.value)
       );
     }
-
-    console.log(currentProduct);
   };
   const handleChangeStockOnHand = (event) => {
     setAdjustedStockOnHand(event.target.value);
-    console.log(adjustedStockOnHand);
   };
   const handleChangeNotes = (event) => {
     setNotes(event.target.value);
-    console.log(notes);
   };
 
   const getProducts = async () => {

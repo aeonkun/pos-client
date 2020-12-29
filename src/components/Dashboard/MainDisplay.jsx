@@ -10,7 +10,8 @@ import {
   ProductFormContainer,
   ProductListContainer,
   Analytics,
-  InvoiceDisplay,
+  DeliveryDestinationsAndCharges,
+  DeliveryDestinationAndChargeForm,
 } from "..";
 import InventoryManagement from "../Inventory/InventoryManagement";
 
@@ -46,7 +47,16 @@ const MainDisplay = ({ user }) => {
               exact
               component={InventoryManagement}
             />
-            <PrivateRoute path="/invoice" exact component={InvoiceDisplay} />
+            <PrivateRoute
+              path="/delivery/destinations"
+              exact
+              component={DeliveryDestinationsAndCharges}
+            />
+            <PrivateRoute
+              path="/delivery/destinations/create"
+              exact
+              component={DeliveryDestinationAndChargeForm}
+            />
           </Switch>
         </Grid>
       </Container>

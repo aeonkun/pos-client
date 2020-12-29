@@ -14,12 +14,13 @@ import { submitOrderApi } from "../../api";
 import { useAuth0 } from "@auth0/auth0-react";
 import useStyles from "./OrderFormStyles";
 import * as Constants from "./constants/OrderFormConstants";
+import useSWR from "swr";
+import { getDeliveryDestinationsAndChargesApi } from "../../api";
 
 const OrderForm = () => {
   const classes = useStyles();
 
   const { user, getAccessTokenSilently } = useAuth0();
-
   const [activeStep, setActiveStep] = useState(0);
   const [order, setOrder] = useState({
     firstName: "",
@@ -29,15 +30,29 @@ const OrderForm = () => {
     nearbyLandmark: "",
     orderDetails: [],
     isPaid: false,
-    status: "Order Placed",
+    status: "New Order",
     createdBy: user.name,
     totalPrice: 0,
     paymentMethod: Object.keys(Constants.paymentMethod).find(
       (key) => Constants.paymentMethod[key] === "Cash on delivery"
     ),
     additionalNotes: "",
+    municipality: "",
+    deliveryCharge: 0,
   });
   const [orderNumber, setOrderNumber] = useState(null);
+
+  const getDeliveryDestinationsAndCharges = async () => {
+    const token = await getAccessTokenSilently();
+    const destinationsAndCharges = await getDeliveryDestinationsAndChargesApi(
+      token
+    );
+    return destinationsAndCharges;
+  };
+
+  const url = "/delivery/destinations";
+
+  const { data, error } = useSWR(url, getDeliveryDestinationsAndCharges);
 
   const handleNext = async () => {
     setActiveStep(activeStep + 1);
@@ -45,7 +60,6 @@ const OrderForm = () => {
     if (activeStep === steps.length - 1) {
       const token = await getAccessTokenSilently();
       const orderId = await submitOrderApi(token, order);
-      console.log(orderId);
       setOrderNumber(orderId);
     }
   };
@@ -55,8 +69,18 @@ const OrderForm = () => {
   };
 
   const handleStateChange = (input) => (e) => {
-    setOrder({ ...order, [input]: e.target.value });
-    console.log(order);
+    if (input === "municipality") {
+      setOrder({
+        ...order,
+        deliveryCharge: (
+          data.find((item) => item.destination === e.target.value)
+            .deliveryCharge / 100
+        ).toFixed(2),
+        municipality: e.target.value,
+      });
+    } else {
+      setOrder({ ...order, [input]: e.target.value });
+    }
   };
 
   const NOT_PRESENT = -1;
@@ -76,12 +100,9 @@ const OrderForm = () => {
     if (index !== NOT_PRESENT) {
       //if quantity is set to blank or 0, remove it from the orderDetails array
       //else update the orderDetail
-      console.log("product in array");
       if (!quantity || quantity === "0") {
-        console.log("quantity set to 0 or blank");
         let details = [...order.orderDetails];
         details.splice(index, 1);
-        console.log(details);
         setOrder({ order, orderDetails: details });
       } else {
         setOrder(
@@ -106,8 +127,6 @@ const OrderForm = () => {
         });
       }
     }
-
-    console.log(order);
   };
 
   const steps = ["Customer details", "Order details", "Review order"];
@@ -119,6 +138,7 @@ const OrderForm = () => {
           <CustomerDetails
             handleStateChange={handleStateChange}
             order={order}
+            data={data}
           />
         );
       case 1:
@@ -135,6 +155,14 @@ const OrderForm = () => {
         throw new Error("Unknown step");
     }
   }
+
+  if (error) return <p>Error occured. Please refresh page.</p>;
+  if (!data)
+    return (
+      <Grid container justify="center" alignItems="center">
+        <CircularProgress />
+      </Grid>
+    );
 
   return (
     <Fragment>

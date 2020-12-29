@@ -20,7 +20,6 @@ const ProductFormContainer = () => {
 
   const handlePriceStateChange = (event) => {
     setPrice(parseFloat(event.target.value));
-    console.log(price);
   };
 
   const handleStockOnHandStateChange = (event) => {

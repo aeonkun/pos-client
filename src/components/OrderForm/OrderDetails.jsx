@@ -1,9 +1,13 @@
 import React, { Fragment } from "react";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import TextField from "@material-ui/core/TextField";
+import {
+  Typography,
+  CircularProgress,
+  Grid,
+  Select,
+  MenuItem,
+  TextField,
+} from "@material-ui/core";
+
 import { useAuth0 } from "@auth0/auth0-react";
 import { getProductsApi } from "../../api";
 import useSWR from "swr";
@@ -33,7 +37,12 @@ const OrderDetails = (props) => {
   }
 
   if (error) return <p>Error occured</p>;
-  if (!data) return <p>Loading...</p>;
+  if (!data)
+    return (
+      <Grid container justify="center" alignItems="center">
+        <CircularProgress />
+      </Grid>
+    );
 
   return (
     <Fragment>
@@ -85,8 +94,8 @@ const OrderDetails = (props) => {
         <Grid item xs={12} sm={4}>
           <Typography variant="subtitle2">Payment method:</Typography>
           <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
+            labelId="paymentMethod"
+            id="paymentMethod"
             value={props.order.paymentMethod}
             fullWidth
             onChange={props.handleStateChange("paymentMethod")}

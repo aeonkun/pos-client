@@ -48,7 +48,6 @@ const ProductListContainer = () => {
 
   const handleModalProductUpdate = (input) => (event) => {
     setModalProduct({ ...modalProduct, [input]: event.target.value });
-    console.log(modalProduct);
   };
   //--------------------------------------------------------
 
@@ -62,7 +61,6 @@ const ProductListContainer = () => {
         modalProduct.price,
         user.name
       );
-      console.log(response);
       if (response === true) {
         //Manually revalidate products
         mutate(url);

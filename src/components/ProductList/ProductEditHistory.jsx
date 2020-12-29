@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Typography, List, ListItemText, ListItem } from "@material-ui/core";
+import { List, ListItemText, ListItem } from "@material-ui/core";
 import { format } from "date-fns";
 import useStyles from "./ProductModalStyles";
 

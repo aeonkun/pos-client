@@ -53,8 +53,6 @@ const OrderStatusModal = ({
       </Modal>
     );
 
-  console.log(status);
-
   return (
     <div>
       <Modal

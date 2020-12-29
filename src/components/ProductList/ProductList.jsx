@@ -43,7 +43,7 @@ const ProductList = ({
                   <ListItem button ContainerComponent="div">
                     <ListItemText
                       primary={`${product.itemName}`}
-                      secondary={`Price: ${(product.price / 100).toFixed(
+                      secondary={`Price: ₱${(product.price / 100).toFixed(
                         2
                       )} | Stock on Hand: ${
                         product.stockOnHand

@@ -4,9 +4,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import StorefrontIcon from "@material-ui/icons/Storefront";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
+import LocalShippingIcon from "@material-ui/icons/LocalShipping";
 import LocalMallIcon from "@material-ui/icons/LocalMall";
 import StorageIcon from "@material-ui/icons/Storage";
 import BarChartIcon from "@material-ui/icons/BarChart";
+import RoomIcon from "@material-ui/icons/Room";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 import { Link } from "react-router-dom";
 
@@ -40,6 +42,16 @@ const components = [
     url: "/inventory",
     name: "Manage Inventory",
     icon: <StorageIcon />,
+  },
+  {
+    url: "/delivery/destinations",
+    name: "Delivery Destinations",
+    icon: <LocalShippingIcon />,
+  },
+  {
+    url: "/delivery/destinations/create",
+    name: "Add Delivery Destinations",
+    icon: <RoomIcon />,
   },
 ];
 

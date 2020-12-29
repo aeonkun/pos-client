@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const url = "https://rizalventures.org/oms/api/v1";
+//local api
+const url = "http://localhost:8080/api/v1";
+
+// server api
+// const url = "https://rizalventures.org/oms/api/v1";
 
 export const getProductsApi = async (token) => {
   try {
@@ -43,6 +47,8 @@ export const submitOrderApi = async (
     createdBy,
     paymentMethod,
     additionalNotes,
+    deliveryCharge,
+    municipality,
   }
 ) => {
   try {
@@ -61,6 +67,8 @@ export const submitOrderApi = async (
         additionalNotes,
         status,
         createdBy,
+        deliveryCharge: parseFloat(deliveryCharge) * 100,
+        municipality,
       },
       {
         headers: {
@@ -318,6 +326,39 @@ export const getProductSalesApi = async (token, timeUnit) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+export const getDeliveryDestinationsAndChargesApi = async (token) => {
+  try {
+    const { data } = await axios.get(`${url}/delivery/destinations`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+export const createDeliveryDestinationAndChargeApi = async (
+  token,
+  destination,
+  deliveryCharge,
+  createdBy
+) => {
+  try {
+    const { data } = await axios.post(
+      `${url}/delivery/destinations/create`,
+      { destination, deliveryCharge, createdBy },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return data;
   } catch (error) {
     console.error(error.message);

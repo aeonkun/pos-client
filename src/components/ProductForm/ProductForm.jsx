@@ -26,6 +26,7 @@ function NumberFormatCustom(props) {
         });
       }}
       thousandSeparator
+      decimalScale={2}
       isNumericString
       prefix="₱"
     />

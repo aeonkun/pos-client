@@ -17,7 +17,6 @@ const ProductOverview = ({ modalProduct }) => {
     const getProductById = async (id) => {
       const token = await getAccessTokenSilently();
       const productResponse = await getProductByIdApi(token, id);
-      console.log(productResponse);
       setProductDetails(productResponse);
     };
 
@@ -30,7 +29,6 @@ const ProductOverview = ({ modalProduct }) => {
         <CircularProgress />
       </Grid>
     );
-  console.log(productDetails.itemName);
   return (
     <Fragment>
       <Grid container>

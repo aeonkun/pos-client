@@ -37,7 +37,6 @@ const ProductTransactions = ({ modalProduct }) => {
     getProductTransactions();
   }, []);
 
-  console.log(transactions);
   if (!transactions)
     return (
       <Grid container justify="center" alignItems="center">
