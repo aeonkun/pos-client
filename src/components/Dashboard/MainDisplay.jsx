@@ -23,7 +23,7 @@ const MainDisplay = ({ user }) => {
       <Container maxWidth="xl" className={classes.container}>
         <Grid container spacing={3}>
           <Switch>
-            <PrivateRoute path="/" exact component={OrderListContainer} />
+            <PrivateRoute path="/" exact component={Analytics} />
             <PrivateRoute path="/orders" exact component={OrderListContainer} />
             <PrivateRoute
               path="/orders/create"
