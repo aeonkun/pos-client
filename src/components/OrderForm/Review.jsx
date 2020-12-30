@@ -10,10 +10,11 @@ import * as Constants from "./constants/OrderFormConstants";
 export default function Review(props) {
   const classes = useStyles();
 
-  function getTotal(orderDetails) {
+  function getTotal(orderDetails, deliveryCharge) {
     const productTotalPrices = orderDetails.map((x) => x.totalPrice);
     const totalPrice = (
-      productTotalPrices.reduce((a, b) => a + b, 0) / 100
+      productTotalPrices.reduce((a, b) => a + b, 0) / 100 +
+      parseFloat(deliveryCharge)
     ).toFixed(2);
     //multiply total price by 100 to get centavo equivalent
     return totalPrice;
@@ -37,9 +38,18 @@ export default function Review(props) {
           </ListItem>
         ))}
         <ListItem className={classes.listItem}>
+          <ListItemText primary="Delivery Charge" />
+          <Typography variant="subtitle1" className={classes.total}>
+            {`₱ ${props.order.deliveryCharge}`}
+          </Typography>
+        </ListItem>
+        <ListItem className={classes.listItem}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" className={classes.total}>
-            {`₱ ${getTotal(props.order.orderDetails)}`}
+            {`₱ ${getTotal(
+              props.order.orderDetails,
+              props.order.deliveryCharge
+            )}`}
           </Typography>
         </ListItem>
       </List>
