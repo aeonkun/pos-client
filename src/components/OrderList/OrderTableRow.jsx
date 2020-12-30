@@ -13,7 +13,6 @@ import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Button from "@material-ui/core/Button";
 import useStyles from "./OrderListStyles";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
-import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import * as PaymentMethodConstants from "../OrderForm/constants/OrderFormConstants";
 import * as OrderStatusConstants from "./constants/OrderListConstants";
 

@@ -40,6 +40,7 @@ const OrderForm = () => {
     municipality: "",
     deliveryCharge: 0,
   });
+  const [dateCreated, setDateCreated] = useState(new Date());
   const [orderNumber, setOrderNumber] = useState(null);
 
   const getDeliveryDestinationsAndCharges = async () => {
@@ -59,6 +60,7 @@ const OrderForm = () => {
 
     if (activeStep === steps.length - 1) {
       const token = await getAccessTokenSilently();
+      order.dateTimeCreated = dateCreated;
       const orderId = await submitOrderApi(token, order);
       setOrderNumber(orderId);
     }
@@ -81,6 +83,11 @@ const OrderForm = () => {
     } else {
       setOrder({ ...order, [input]: e.target.value });
     }
+  };
+
+  const handleChangeDateCreatedState = (date) => {
+    console.log(dateCreated);
+    setDateCreated(date);
   };
 
   const NOT_PRESENT = -1;
@@ -139,6 +146,8 @@ const OrderForm = () => {
             handleStateChange={handleStateChange}
             order={order}
             data={data}
+            dateCreated={dateCreated}
+            handleChangeDateCreatedState={handleChangeDateCreatedState}
           />
         );
       case 1:

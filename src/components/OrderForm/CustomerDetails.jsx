@@ -2,6 +2,13 @@ import React, { Fragment } from "react";
 import Grid from "@material-ui/core/Grid";
 import { Typography, TextField, Select, MenuItem } from "@material-ui/core";
 import NumberFormat from "react-number-format";
+import "date-fns";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
 
 function NumberFormatCustom(props) {
   const { inputRef, onChange, ...other } = props;
@@ -26,9 +33,40 @@ function NumberFormatCustom(props) {
   );
 }
 
-const CustomerDetails = ({ handleStateChange, order, data }) => {
+const CustomerDetails = ({
+  handleStateChange,
+  order,
+  data,
+  dateCreated,
+  handleChangeDateCreatedState,
+}) => {
   return (
     <Fragment>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="MM/dd/yyyy"
+          margin="normal"
+          id="dateCreated"
+          label="Date Created"
+          value={dateCreated}
+          onChange={handleChangeDateCreatedState}
+          KeyboardButtonProps={{
+            "aria-label": "change date",
+          }}
+        />
+        <KeyboardTimePicker
+          margin="normal"
+          id="timeCreated"
+          label="Time Created"
+          value={dateCreated}
+          onChange={handleChangeDateCreatedState}
+          KeyboardButtonProps={{
+            "aria-label": "change time",
+          }}
+        />
+      </MuiPickersUtilsProvider>
       <Typography variant="h6" gutterBottom>
         Customer Details
       </Typography>

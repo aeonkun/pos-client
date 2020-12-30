@@ -1,4 +1,5 @@
 import axios from "axios";
+import { format } from "date-fns";
 
 //local api
 // const url = "http://localhost:8080/api/v1";
@@ -49,9 +50,13 @@ export const submitOrderApi = async (
     additionalNotes,
     deliveryCharge,
     municipality,
+    dateTimeCreated,
   }
 ) => {
   try {
+    console.log("in api");
+    console.log(dateTimeCreated);
+
     const { data } = await axios.post(
       url + "/orders",
       {
@@ -69,6 +74,7 @@ export const submitOrderApi = async (
         createdBy,
         deliveryCharge: parseFloat(deliveryCharge) * 100,
         municipality,
+        dateTimeCreated: format(dateTimeCreated, `yyyy-MM-dd'T'HH:mm:ss'Z'`),
       },
       {
         headers: {
@@ -134,8 +140,6 @@ export const getOrdersApi = async (token, page, rows) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("raw");
-    console.log(data);
 
     return data;
   } catch (error) {}
