@@ -6,6 +6,7 @@ import useSWR from "swr";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getSalesActivitySummaryApi } from "../../api";
 import { CircularProgress } from "@material-ui/core";
+import NumberFormat from "react-number-format";
 
 const SalesSummary = ({ timeUnit }) => {
   const { getAccessTokenSilently } = useAuth0();
@@ -34,11 +35,21 @@ const SalesSummary = ({ timeUnit }) => {
         <Grid container direction="column" spacing={3}>
           <Grid item xs={12}>
             <Grid container spacing={3}>
-              <Grid item xs={8}>
+              <Grid item xs={12}>
                 <Typography variant="h5">Sales Activity Summary</Typography>
               </Grid>
-              <Grid item xs={4}>
-                <Typography variant="h5">{`Total Sales: (₱) ${data.totalSales}`}</Typography>
+              <Grid item xs={12}>
+                <Typography variant="h6">
+                  {`Total Sales: `}
+                  <NumberFormat
+                    value={data.totalSales}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"₱"}
+                    decimalScale={2}
+                    fixedDecimalScale={true}
+                  ></NumberFormat>
+                </Typography>
               </Grid>
             </Grid>
           </Grid>

@@ -30,6 +30,9 @@ const OrderTableHeader = () => {
           Total Price (₱)
         </TableCell>
         <TableCell align="center" className={classes.header}>
+          Notes
+        </TableCell>
+        <TableCell align="center" className={classes.header}>
           Created By
         </TableCell>
         <TableCell align="center" className={classes.header}>

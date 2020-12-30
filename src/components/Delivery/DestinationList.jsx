@@ -22,14 +22,6 @@ const DestinationList = ({ data }) => {
                 delivery.deliveryCharge / 100
               ).toFixed(2)}`}
             />
-            <IconButton color="primary">
-              <EditIcon />
-            </IconButton>
-            <ListItemSecondaryAction>
-              <InfoIcon edge="end" aria-label="edit" color="primary">
-                <EditIcon />
-              </InfoIcon>
-            </ListItemSecondaryAction>
           </ListItem>
           <Divider />
         </Fragment>

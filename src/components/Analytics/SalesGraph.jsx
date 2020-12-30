@@ -10,25 +10,36 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+import NumberFormat from "react-number-format";
+
+const NumberMask = (value) => (
+  <NumberFormat
+    value={value}
+    displayType="text"
+    thousandSeparator={true}
+    prefix={"₱"}
+    decimalScale={2}
+    fixedDecimalScale={true}
+  />
+);
+
 const SalesGraph = ({ data }) => {
   return (
     <Fragment>
-      <ResponsiveContainer width={1200} height={300}>
-        <LineChart data={data.salesActivities}>
-          <XAxis dataKey="dateUnit" />
-          <YAxis />
-          <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
-          <Legend />
-          <Line
-            name="Amount Sold (₱)"
-            type="monotone"
-            dataKey="value"
-            stroke="#3F51B5"
-            activeDot={{ r: 8 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <LineChart data={data.salesActivities} width={1825} height={300}>
+        <XAxis dataKey="dateUnit" />
+        <YAxis />
+        <CartesianGrid strokeDasharray="3 3" />
+        <Tooltip formatter={NumberMask} />
+        <Legend />
+        <Line
+          name="Amount Sold (₱)"
+          type="monotone"
+          dataKey="value"
+          stroke="#3F51B5"
+          activeDot={{ r: 8 }}
+        />
+      </LineChart>
     </Fragment>
   );
 };

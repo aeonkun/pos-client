@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import {
-  ResponsiveContainer,
   BarChart,
   CartesianGrid,
   XAxis,
@@ -10,42 +9,33 @@ import {
   Bar,
 } from "recharts";
 
-const ProductSalesChart = ({ data }) => {
-  // const data = [
-  //   {
-  //     name: "Cheesy",
-  //     value: 196,
-  //   },
-  //   {
-  //     name: "Schublig",
-  //     value: 54,
-  //   },
-  //   {
-  //     name: "Spicy",
-  //     value: 80,
-  //   },
-  //   {
-  //     name: "Hungarian",
-  //     value: 280,
-  //   },
-  //   {
-  //     name: "Beef",
-  //     value: 32,
-  //   },
-  // ];
+import NumberFormat from "react-number-format";
 
+const NumberMask = (value) => (
+  <NumberFormat
+    value={value}
+    displayType="text"
+    thousandSeparator={true}
+    suffix={"pcs"}
+  />
+);
+
+const ProductSalesChart = ({ data }) => {
   return (
     <Fragment>
-      <ResponsiveContainer width={1200} height={300}>
-        <BarChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="productName" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar name="Quantity Sold" dataKey="amountSold" fill="#3F51B5" />
-        </BarChart>
-      </ResponsiveContainer>
+      <BarChart
+        data={data}
+        width={1825}
+        height={300}
+        margin={{ top: 5, right: 5, left: 5, bottom: 5 }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="productName" />
+        <YAxis />
+        <Tooltip formatter={NumberMask} />
+        <Legend />
+        <Bar name="Quantity Sold" dataKey="amountSold" fill="#3F51B5" />
+      </BarChart>
     </Fragment>
   );
 };

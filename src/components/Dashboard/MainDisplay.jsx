@@ -20,7 +20,7 @@ const MainDisplay = ({ user }) => {
   return (
     <main className={classes.content}>
       <div className={classes.appBarSpacer} />
-      <Container maxWidth="lg" className={classes.container}>
+      <Container maxWidth="xl" className={classes.container}>
         <Grid container spacing={3}>
           <Switch>
             <PrivateRoute path="/" exact component={OrderListContainer} />

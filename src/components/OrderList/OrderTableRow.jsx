@@ -56,6 +56,7 @@ const OrderTableRow = ({
         <TableCell align="center">
           {(order.totalPrice / 100).toFixed(2)}
         </TableCell>
+        <TableCell align="center">{order.additionalNotes}</TableCell>
         <TableCell align="center">{order.createdBy}</TableCell>
         <TableCell align="center">
           {formatDateTime(order.dateTimeCreated)}
