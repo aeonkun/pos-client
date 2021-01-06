@@ -11,9 +11,14 @@ const TimeUnitDropDown = ({ timeUnit, handleTimeUnitChange }) => {
         onChange={handleTimeUnitChange}
       >
         <MenuItem value={"DAILY"}>Today</MenuItem>
+        <MenuItem value={"PREVIOUS_DAILY"}>Yesterday</MenuItem>
         <MenuItem value={"WEEKLY"}>This week</MenuItem>
         <MenuItem value={"MONTHLY"}>This month</MenuItem>
         <MenuItem value={"ANNUALLY"}>This year</MenuItem>
+        <MenuItem value={"PREVIOUS_WEEKLY"}>Previous week</MenuItem>
+        <MenuItem value={"PREVIOUS_MONTHLY"}>Previous Month</MenuItem>
+        <MenuItem value={"PREVIOUS_YEARLY"}>Previous Year</MenuItem>
+        <MenuItem value={"CUSTOM"}>Custom</MenuItem>
       </Select>
     </Fragment>
   );

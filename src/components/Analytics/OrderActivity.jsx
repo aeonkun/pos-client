@@ -1,21 +1,31 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import OrderStatusCard from "./OrderStatusCard";
 import { Grid, Typography, Paper } from "@material-ui/core";
 import useStyles from "./AnalyticsStyles";
 import { useAuth0 } from "@auth0/auth0-react";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { getOrderActivityApi } from "../../api";
 import { CircularProgress } from "@material-ui/core";
 import * as Constants from "../OrderList/constants/OrderListConstants";
+import { startOfMonth, endOfMonth, startOfDay, endOfDay } from "date-fns";
+import { DateRangePickerButton } from "..";
 
-const OrderActivity = ({ timeUnit }) => {
+const OrderActivity = () => {
   const { getAccessTokenSilently } = useAuth0();
+  const [dateRange, setDateRange] = useState([
+    startOfMonth(new Date()),
+    endOfMonth(new Date()),
+  ]);
 
-  const url = `/analytics/orderactivity?timeUnit=${timeUnit}`;
+  let url = `/analytics/orderactivity?startDate=${dateRange[0]}&endDate=${dateRange[1]}`;
+
+  const handleDateChange = (dateRange) => {
+    setDateRange(dateRange);
+  };
 
   const getOrderActivity = async () => {
     const token = await getAccessTokenSilently();
-    const orderActivity = await getOrderActivityApi(token, timeUnit);
+    const orderActivity = await getOrderActivityApi(token, dateRange);
     return orderActivity;
   };
 
@@ -35,8 +45,23 @@ const OrderActivity = ({ timeUnit }) => {
     <Fragment>
       <Paper className={classes.paper}>
         <Grid container direction="column" spacing={3}>
-          <Grid item xs={12}>
-            <Typography variant="h5">Order Activity</Typography>
+          <Grid item xs={12} justify="space-between" alignItems="center">
+            <Grid
+              container
+              direction="row"
+              justify="flex-start"
+              alignItems="center"
+            >
+              <Grid item>
+                <Typography variant="h5">Order Activity</Typography>
+              </Grid>
+              <Grid item>
+                <DateRangePickerButton
+                  dateRange={dateRange}
+                  handleDateChange={handleDateChange}
+                />
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item xs={12}>
             <Grid
