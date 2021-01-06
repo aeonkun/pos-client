@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Paper from "@material-ui/core/Paper";
 import Stepper from "@material-ui/core/Stepper";
@@ -16,6 +16,7 @@ import useStyles from "./OrderFormStyles";
 import * as Constants from "./constants/OrderFormConstants";
 import useSWR from "swr";
 import { getDeliveryDestinationsAndChargesApi } from "../../api";
+import { de } from "date-fns/esm/locale";
 
 const OrderForm = () => {
   const classes = useStyles();
@@ -42,18 +43,26 @@ const OrderForm = () => {
   });
   const [dateCreated, setDateCreated] = useState(new Date());
   const [orderNumber, setOrderNumber] = useState(null);
+  const [destinationsAndCharges, setDestinationsAndCharges] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const getDeliveryDestinationsAndCharges = async () => {
-    const token = await getAccessTokenSilently();
-    const destinationsAndCharges = await getDeliveryDestinationsAndChargesApi(
-      token
-    );
-    return destinationsAndCharges;
+  useEffect(() => {
+    const getDeliveryDestinationsAndCharges = async () => {
+      const token = await getAccessTokenSilently();
+      const response = await getDeliveryDestinationsAndChargesApi(token);
+      if (response.length === 0) {
+        setDefaultDestinationAndCharge();
+      } else {
+        setDestinationsAndCharges(response);
+      }
+    };
+    getDeliveryDestinationsAndCharges();
+    setLoading(false);
+  }, []);
+
+  const setDefaultDestinationAndCharge = () => {
+    setDestinationsAndCharges([{ destination: "None", deliveryCharge: 0 }]);
   };
-
-  const url = "/delivery/destinations";
-
-  const { data, error } = useSWR(url, getDeliveryDestinationsAndCharges);
 
   const handleNext = async () => {
     setActiveStep(activeStep + 1);
@@ -75,8 +84,9 @@ const OrderForm = () => {
       setOrder({
         ...order,
         deliveryCharge: (
-          data.find((item) => item.destination === e.target.value)
-            .deliveryCharge / 100
+          destinationsAndCharges.find(
+            (item) => item.destination === e.target.value
+          ).deliveryCharge / 100
         ).toFixed(2),
         municipality: e.target.value,
       });
@@ -86,7 +96,6 @@ const OrderForm = () => {
   };
 
   const handleChangeDateCreatedState = (date) => {
-    console.log(dateCreated);
     setDateCreated(date);
   };
 
@@ -145,7 +154,7 @@ const OrderForm = () => {
           <CustomerDetails
             handleStateChange={handleStateChange}
             order={order}
-            data={data}
+            destinationsAndCharges={destinationsAndCharges}
             dateCreated={dateCreated}
             handleChangeDateCreatedState={handleChangeDateCreatedState}
           />
@@ -165,8 +174,7 @@ const OrderForm = () => {
     }
   }
 
-  if (error) return <p>Error occured. Please refresh page.</p>;
-  if (!data)
+  if (loading)
     return (
       <Grid container justify="center" alignItems="center">
         <CircularProgress />

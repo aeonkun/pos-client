@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import {
   Typography,
   CircularProgress,
@@ -15,17 +15,20 @@ import * as Constants from "./constants/OrderFormConstants";
 
 const OrderDetails = (props) => {
   const { getAccessTokenSilently } = useAuth0();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const getProducts = async () => {
-    const token = await getAccessTokenSilently();
-    const products = await getProductsApi(token);
-    return products;
-  };
+  useEffect(() => {
+    const getProducts = async () => {
+      const token = await getAccessTokenSilently();
+      const products = await getProductsApi(token);
+      setProducts(products);
+    };
+    getProducts();
+    setLoading(false);
+  }, []);
 
-  const url = "/products";
-  const { data, error } = useSWR(url, getProducts);
-
-  function addProductToOrderDetails(productId, name, quantity, price) {
+  const addProductToOrderDetails = (productId, name, quantity, price) => {
     const totalPrice = price * quantity;
     props.handleProductStateChange({
       productId: productId,
@@ -34,10 +37,9 @@ const OrderDetails = (props) => {
       price: price,
       totalPrice: totalPrice,
     });
-  }
+  };
 
-  if (error) return <p>Error occured</p>;
-  if (!data)
+  if (loading)
     return (
       <Grid container justify="center" alignItems="center">
         <CircularProgress />
@@ -52,7 +54,7 @@ const OrderDetails = (props) => {
             Products
           </Typography>
         </Grid>
-        {data.map((product) => (
+        {products.map((product) => (
           <Grid item xs={12} md={6} key={product.id}>
             <TextField
               id={`product-${product.id}`}

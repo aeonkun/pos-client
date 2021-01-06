@@ -36,36 +36,42 @@ function NumberFormatCustom(props) {
 const CustomerDetails = ({
   handleStateChange,
   order,
-  data,
+  destinationsAndCharges,
   dateCreated,
   handleChangeDateCreatedState,
 }) => {
   return (
     <Fragment>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="MM/dd/yyyy"
-          margin="normal"
-          id="dateCreated"
-          label="Date Created"
-          value={dateCreated}
-          onChange={handleChangeDateCreatedState}
-          KeyboardButtonProps={{
-            "aria-label": "change date",
-          }}
-        />
-        <KeyboardTimePicker
-          margin="normal"
-          id="timeCreated"
-          label="Time Created"
-          value={dateCreated}
-          onChange={handleChangeDateCreatedState}
-          KeyboardButtonProps={{
-            "aria-label": "change time",
-          }}
-        />
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="dateCreated"
+              label="Date Created"
+              value={dateCreated}
+              onChange={handleChangeDateCreatedState}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <KeyboardTimePicker
+              margin="normal"
+              id="timeCreated"
+              label="Time Created"
+              value={dateCreated}
+              onChange={handleChangeDateCreatedState}
+              KeyboardButtonProps={{
+                "aria-label": "change time",
+              }}
+            />
+          </Grid>
+        </Grid>
       </MuiPickersUtilsProvider>
       <Typography variant="h6" gutterBottom>
         Customer Details
@@ -140,7 +146,7 @@ const CustomerDetails = ({
             fullWidth
             onChange={handleStateChange("municipality")}
           >
-            {Object.values(data).map((delivery) => (
+            {destinationsAndCharges.map((delivery) => (
               <MenuItem value={delivery.destination}>
                 {delivery.destination}
               </MenuItem>
