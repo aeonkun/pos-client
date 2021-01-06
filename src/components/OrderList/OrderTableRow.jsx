@@ -15,6 +15,8 @@ import useStyles from "./OrderListStyles";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import * as PaymentMethodConstants from "../OrderForm/constants/OrderFormConstants";
 import * as OrderStatusConstants from "./constants/OrderListConstants";
+import UpdateIcon from "@material-ui/icons/Update";
+import ReceiptIcon from "@material-ui/icons/Receipt";
 
 const OrderTableRow = ({
   order,
@@ -65,28 +67,15 @@ const OrderTableRow = ({
           {OrderStatusConstants.orderStatuses[order.orderStatus]}
         </TableCell>
         <TableCell align="center">
-          <Button
-            variant="contained"
-            size="small"
-            color="primary"
-            disabled={
-              order.orderStatus === "COMPLETED" ||
-              order.orderStatus === "CANCELLED"
-            }
-            onClick={() => handleOpenModal(order.id)}
-          >
-            Update
-          </Button>
-        </TableCell>
-        <TableCell align="center">
-          <Button
-            variant="contained"
-            size="small"
+          <IconButton color="primary" onClick={() => handleOpenModal(order.id)}>
+            <UpdateIcon />
+          </IconButton>
+          <IconButton
             color="primary"
             onClick={() => handleOpenInvoiceModal(order.id)}
           >
-            Invoice
-          </Button>
+            <ReceiptIcon />
+          </IconButton>
         </TableCell>
       </TableRow>
       <TableRow>

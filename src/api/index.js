@@ -300,8 +300,8 @@ export const getOrderActivityApi = async (token, dateRange) => {
   try {
     const { data } = await axios.get(`${url}/analytics/orderactivity`, {
       params: {
-        startDate: startOfDay(dateRange[0]),
-        endDate: endOfDay(dateRange[1]),
+        startDate: format(startOfDay(dateRange[0]), `yyyy-MM-dd'T'HH:mm:ss'Z'`),
+        endDate: format(endOfDay(dateRange[1]), `yyyy-MM-dd'T'HH:mm:ss'Z'`),
       },
       headers: {
         Authorization: `Bearer ${token}`,
@@ -325,10 +325,19 @@ export const getSalesActivitySummaryApi = async (token, timeUnit) => {
     console.error(error.message);
   }
 };
-export const getProductSalesApi = async (token, timeUnit) => {
+export const getProductSalesApi = async (token, dateRange) => {
+  const startDate = format(
+    startOfDay(dateRange[0]),
+    `yyyy-MM-dd'T'HH:mm:ss'Z'`
+  );
+  const endDate = format(endOfDay(dateRange[1]), `yyyy-MM-dd'T'HH:mm:ss'Z'`);
+
   try {
     const { data } = await axios.get(`${url}/analytics/productsales`, {
-      params: { timeUnit: timeUnit },
+      params: {
+        startDate,
+        endDate,
+      },
       headers: {
         Authorization: `Bearer ${token}`,
       },

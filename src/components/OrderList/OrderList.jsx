@@ -17,6 +17,7 @@ const OrderList = ({
   handleCloseInvoiceModal,
   openInvoiceModal,
   currentOrder,
+  isLoading,
 }) => {
   return (
     <Fragment>
@@ -36,6 +37,7 @@ const OrderList = ({
         status={status}
         updateStatusAndHistoryState={updateStatusAndHistoryState}
         updateStatus={updateStatus}
+        isLoading={isLoading}
       />
       <InvoiceDisplay
         handleOpenInvoiceModal={handleOpenInvoiceModal}

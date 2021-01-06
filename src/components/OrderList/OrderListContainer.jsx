@@ -19,10 +19,12 @@ const OrderListContainer = () => {
   const [status, setStatus] = useState({
     orderId: null,
     orderStatus: "",
+    presentOrderStatus: "",
     statusAndHistories: [],
   });
   const [openInvoiceModal, setOpenInvoiceModal] = useState(false);
   const [currentOrder, setCurrentOrder] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleOpenInvoiceModal = async (orderId) => {
     setCurrentOrder(data.orders.find((order) => order.id === orderId));
@@ -59,7 +61,12 @@ const OrderListContainer = () => {
     const token = await getAccessTokenSilently();
     const response = await getStatusHistoryApi(token, id);
     status.orderId = id;
-    setStatus({ ...response, orderId: id });
+    console.log(response);
+    setStatus({
+      ...response,
+      presentOrderStatus: response.orderStatus,
+      orderId: id,
+    });
   };
 
   const getOrders = async (page, rows) => {
@@ -84,6 +91,7 @@ const OrderListContainer = () => {
   };
 
   const updateStatus = async (orderId) => {
+    setIsLoading(true);
     const token = await getAccessTokenSilently();
     const username = user.name;
 
@@ -93,7 +101,8 @@ const OrderListContainer = () => {
       status.orderStatus,
       username
     );
-    await getStatusAndHistory(status.orderId);
+    setIsLoading(false);
+    setOpenModal(false);
     mutate(url);
   };
 
@@ -123,6 +132,7 @@ const OrderListContainer = () => {
       handleCloseInvoiceModal={handleCloseInvoiceModal}
       openInvoiceModal={openInvoiceModal}
       currentOrder={currentOrder}
+      isLoading={isLoading}
     />
   );
 };

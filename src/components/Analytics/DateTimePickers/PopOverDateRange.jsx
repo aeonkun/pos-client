@@ -24,19 +24,10 @@ const PopOverDateRange = ({
         horizontal: "center",
       }}
     >
-      <Grid container direction="column" spacing={3} alignItems="center">
-        <Grid item>
-          <AnalyticsDateRangePicker
-            dateRange={dateRange}
-            handleDateChange={handleDateChange}
-          />
-        </Grid>
-        <Grid item>
-          <Button variant="contained" color="primary">
-            Submit
-          </Button>
-        </Grid>
-      </Grid>
+      <AnalyticsDateRangePicker
+        dateRange={dateRange}
+        handleDateChange={handleDateChange}
+      />
     </Popover>
   );
 };

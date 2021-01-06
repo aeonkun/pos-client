@@ -1,5 +1,5 @@
 import { Grid, Paper, Typography } from "@material-ui/core";
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import SalesGraph from "./SalesGraph";
 import useStyles from "./AnalyticsStyles";
 import useSWR from "swr";
@@ -7,9 +7,16 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { getSalesActivitySummaryApi } from "../../api";
 import { CircularProgress } from "@material-ui/core";
 import NumberFormat from "react-number-format";
+import TimeUnitDropDown from "./TimeUnitDropDown";
 
-const SalesSummary = ({ timeUnit }) => {
+const SalesSummary = () => {
   const { getAccessTokenSilently } = useAuth0();
+
+  const [timeUnit, setTimeUnit] = useState("MONTHLY");
+
+  const handleTimeUnitChange = (event) => {
+    setTimeUnit(event.target.value);
+  };
 
   const getSalesActivitySummary = async () => {
     const token = await getAccessTokenSilently();
@@ -35,14 +42,20 @@ const SalesSummary = ({ timeUnit }) => {
         <Grid container direction="column" spacing={3}>
           <Grid item xs={12}>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
+              <Grid item>
                 <Typography variant="h5">Sales Activity Summary</Typography>
+              </Grid>
+              <Grid item>
+                {/* <TimeUnitDropDown
+                  timeUnit={timeUnit}
+                  handleTimeUnitChange={handleTimeUnitChange}
+                /> */}
               </Grid>
               <Grid item xs={12}>
                 <Typography variant="h6">
                   {`Total Sales: `}
                   <NumberFormat
-                    value={data.totalSales}
+                    value={data.totalSales / 100}
                     displayType={"text"}
                     thousandSeparator={true}
                     prefix={"₱"}

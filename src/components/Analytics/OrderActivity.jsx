@@ -3,24 +3,30 @@ import OrderStatusCard from "./OrderStatusCard";
 import { Grid, Typography, Paper } from "@material-ui/core";
 import useStyles from "./AnalyticsStyles";
 import { useAuth0 } from "@auth0/auth0-react";
-import useSWR, { mutate } from "swr";
+import useSWR from "swr";
 import { getOrderActivityApi } from "../../api";
 import { CircularProgress } from "@material-ui/core";
 import * as Constants from "../OrderList/constants/OrderListConstants";
-import { startOfMonth, endOfMonth, startOfDay, endOfDay } from "date-fns";
+import { startOfMonth, endOfMonth } from "date-fns";
 import { DateRangePickerButton } from "..";
 
 const OrderActivity = () => {
   const { getAccessTokenSilently } = useAuth0();
+
+  //for swr fetching
+  const [url, setUrl] = useState(`/analytics/orderactivity`);
   const [dateRange, setDateRange] = useState([
     startOfMonth(new Date()),
     endOfMonth(new Date()),
   ]);
 
-  let url = `/analytics/orderactivity?startDate=${dateRange[0]}&endDate=${dateRange[1]}`;
-
   const handleDateChange = (dateRange) => {
     setDateRange(dateRange);
+    if (dateRange[0] !== null && dateRange[1] !== null) {
+      setUrl(
+        `/analytics/orderactivity?startDate=${dateRange[0]}&endDate=${dateRange[1]}`
+      );
+    }
   };
 
   const getOrderActivity = async () => {

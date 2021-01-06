@@ -28,6 +28,7 @@ const OrderStatusModal = ({
   updateStatusAndHistoryState,
   updateStatus,
   currentOrder,
+  isLoading,
 }) => {
   const classes = useStyles();
 
@@ -77,6 +78,12 @@ const OrderStatusModal = ({
                   labelId="demo-simple-select-helper-label"
                   id="demo-simple-select-helper"
                   value={status.orderStatus}
+                  disabled={
+                    status.presentOrderStatus ===
+                      Constants.orderStatuses.COMPLETED ||
+                    status.presentOrderStatus ===
+                      Constants.orderStatuses.CANCELLED
+                  }
                   fullWidth
                   onChange={updateStatusAndHistoryState("orderStatus")}
                 >
@@ -111,6 +118,13 @@ const OrderStatusModal = ({
                   variant="contained"
                   color="primary"
                   size="small"
+                  disabled={
+                    isLoading ||
+                    status.presentOrderStatus ===
+                      Constants.orderStatuses.COMPLETED ||
+                    status.presentOrderStatus ===
+                      Constants.orderStatuses.CANCELLED
+                  }
                   onClick={() => updateStatus(status.orderId)}
                 >
                   Save
@@ -124,7 +138,7 @@ const OrderStatusModal = ({
                     status.statusAndHistories.map((history) => (
                       <ListItem>
                         <ListItemText
-                          primary={`${history.modifiedBy} updated the ${history.statusType} from ${history.oldStatus} to ${history.newStatus}.`}
+                          primary={`${history.modifiedBy} updated the status from ${history.oldStatus} to ${history.newStatus}.`}
                           secondary={`Changed on ${formatDateTime(
                             history.dateTimeModified
                           )}`}
