@@ -1,5 +1,5 @@
 import axios from "axios";
-import { format } from "date-fns";
+import { format, startOfDay, endOfDay } from "date-fns";
 
 //local api
 // const url = "http://localhost:8080/api/v1";
@@ -296,10 +296,13 @@ export const getInventoryAdjustmentsApi = async (token, page, rows) => {
     console.error(error.message);
   }
 };
-export const getOrderActivityApi = async (token, timeUnit) => {
+export const getOrderActivityApi = async (token, dateRange) => {
   try {
     const { data } = await axios.get(`${url}/analytics/orderactivity`, {
-      params: { timeUnit: timeUnit },
+      params: {
+        startDate: startOfDay(dateRange[0]),
+        endDate: endOfDay(dateRange[1]),
+      },
       headers: {
         Authorization: `Bearer ${token}`,
       },
