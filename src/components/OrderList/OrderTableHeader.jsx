@@ -18,19 +18,10 @@ const OrderTableHeader = () => {
           Customer Name
         </TableCell>
         <TableCell align="center" className={classes.header}>
-          Delivery Address
-        </TableCell>
-        <TableCell align="center" className={classes.header}>
-          Nearby Landmark
-        </TableCell>
-        <TableCell align="center" className={classes.header}>
           Payment Method
         </TableCell>
         <TableCell align="center" className={classes.header}>
           Total Price (₱)
-        </TableCell>
-        <TableCell align="center" className={classes.header}>
-          Notes
         </TableCell>
         <TableCell align="center" className={classes.header}>
           Created By

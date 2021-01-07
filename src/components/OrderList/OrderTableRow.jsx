@@ -17,6 +17,7 @@ import * as PaymentMethodConstants from "../OrderForm/constants/OrderFormConstan
 import * as OrderStatusConstants from "./constants/OrderListConstants";
 import UpdateIcon from "@material-ui/icons/Update";
 import ReceiptIcon from "@material-ui/icons/Receipt";
+import { List, ListItem, ListItemText, Grid } from "@material-ui/core";
 
 const OrderTableRow = ({
   order,
@@ -50,15 +51,12 @@ const OrderTableRow = ({
         <TableCell align="center">
           {[order.customer.firstName, order.customer.lastName].join(" ")}
         </TableCell>
-        <TableCell align="center">{order.customer.deliveryAddress}</TableCell>
-        <TableCell align="center">{order.customer.nearbyLandmark}</TableCell>
         <TableCell align="center">
           {PaymentMethodConstants.paymentMethod[order.paymentMethod]}
         </TableCell>
         <TableCell align="center">
           {(order.totalPrice / 100).toFixed(2)}
         </TableCell>
-        <TableCell align="center">{order.additionalNotes}</TableCell>
         <TableCell align="center">{order.createdBy}</TableCell>
         <TableCell align="center">
           {formatDateTime(order.dateTimeCreated)}
@@ -85,6 +83,42 @@ const OrderTableRow = ({
               <Typography variant="h6" gutterBottom component="div">
                 Order Details
               </Typography>
+              <List>
+                <Grid container direction="row" spacing={3}>
+                  <Grid item>
+                    <ListItem>
+                      <ListItemText
+                        primary={order.customer.deliveryAddress}
+                        secondary="Delivery Address"
+                      />
+                    </ListItem>
+                  </Grid>
+                  <Grid item>
+                    <ListItem>
+                      <ListItemText
+                        primary={
+                          order.customer.nearbyLandmark
+                            ? order.customer.nearbyLandmark
+                            : "No landmark specified"
+                        }
+                        secondary="Landmark"
+                      />
+                    </ListItem>
+                  </Grid>
+                  <Grid item>
+                    <ListItem>
+                      <ListItemText
+                        primary={
+                          order.additionalNotes
+                            ? order.additionalNotes
+                            : "No notes specified"
+                        }
+                        secondary="Notes"
+                      />
+                    </ListItem>
+                  </Grid>
+                </Grid>
+              </List>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
@@ -106,26 +140,50 @@ const OrderTableRow = ({
                 <TableBody>
                   {order.orderDetails !== null ? (
                     order.orderDetails.map((orderDetail) => (
-                      <TableRow key={orderDetail.productId}>
-                        {orderDetail.hasEnoughStock === false && (
-                          <TableCell>
-                            <ErrorOutlineIcon color="error"></ErrorOutlineIcon>
+                      <Fragment>
+                        <TableRow key={orderDetail.productId}>
+                          {orderDetail.hasEnoughStock === false && (
+                            <TableCell>
+                              <ErrorOutlineIcon color="error"></ErrorOutlineIcon>
+                            </TableCell>
+                          )}
+                          {orderDetail.hasEnoughStock === true && <TableCell />}
+                          <TableCell component="th" scope="row">
+                            {orderDetail.productName}
                           </TableCell>
-                        )}
-                        {orderDetail.hasEnoughStock === true && <TableCell />}
-                        <TableCell component="th" scope="row">
-                          {orderDetail.productName}
-                        </TableCell>
-                        <TableCell align="center">
-                          {orderDetail.quantity}
-                        </TableCell>
-                        <TableCell align="right">
-                          {(orderDetail.price / 100).toFixed(2)}
-                        </TableCell>
-                        <TableCell align="right">
-                          {(orderDetail.total / 100).toFixed(2)}
-                        </TableCell>
-                      </TableRow>
+                          <TableCell align="center">
+                            {orderDetail.quantity}
+                          </TableCell>
+                          <TableCell align="right">
+                            {(orderDetail.price / 100).toFixed(2)}
+                          </TableCell>
+                          <TableCell align="right">
+                            {(orderDetail.total / 100).toFixed(2)}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell />
+                          <TableCell />
+                          <TableCell />
+                          <TableCell align="right" className={classes.header}>
+                            Delivery Charge:
+                          </TableCell>
+                          <TableCell align="right">
+                            {order.deliveryCharge}
+                          </TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell />
+                          <TableCell />
+                          <TableCell />
+                          <TableCell align="right" className={classes.header}>
+                            Total:
+                          </TableCell>
+                          <TableCell align="right">
+                            {(order.totalPrice / 100).toFixed(2)}
+                          </TableCell>
+                        </TableRow>
+                      </Fragment>
                     ))
                   ) : (
                     <Typography
