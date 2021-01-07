@@ -15,7 +15,7 @@ const OrderListContainer = () => {
 
   const [openModal, setOpenModal] = useState(false);
   const [page, setPage] = useState(1);
-  const [rows, setRows] = useState(5);
+  const [rows, setRows] = useState(10);
   const [status, setStatus] = useState({
     orderId: null,
     orderStatus: "",
