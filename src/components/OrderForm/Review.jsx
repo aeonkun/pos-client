@@ -6,6 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Grid from "@material-ui/core/Grid";
 import useStyles from "./OrderFormStyles";
 import * as Constants from "./constants/OrderFormConstants";
+import { NumberFormatter } from "..";
 
 export default function Review(props) {
   const classes = useStyles();
@@ -33,23 +34,25 @@ export default function Review(props) {
               secondary={`Quantity: ${order.quantity}`}
             />
             <Typography variant="body2">
-              {(order.totalPrice / 100).toFixed(2)}
+              <NumberFormatter value={order.totalPrice / 100} />
             </Typography>
           </ListItem>
         ))}
         <ListItem className={classes.listItem}>
           <ListItemText primary="Delivery Charge" />
           <Typography variant="subtitle1" className={classes.total}>
-            {`₱ ${props.order.deliveryCharge}`}
+            <NumberFormatter value={props.order.deliveryCharge / 100} />
           </Typography>
         </ListItem>
         <ListItem className={classes.listItem}>
           <ListItemText primary="Total" />
           <Typography variant="subtitle1" className={classes.total}>
-            {`₱ ${getTotal(
-              props.order.orderDetails,
-              props.order.deliveryCharge
-            )}`}
+            <NumberFormatter
+              value={getTotal(
+                props.order.orderDetails,
+                props.order.deliveryCharge
+              )}
+            />
           </Typography>
         </ListItem>
       </List>

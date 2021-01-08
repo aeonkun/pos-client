@@ -61,7 +61,6 @@ const OrderListContainer = () => {
     const token = await getAccessTokenSilently();
     const response = await getStatusHistoryApi(token, id);
     status.orderId = id;
-    console.log(response);
     setStatus({
       ...response,
       presentOrderStatus: response.orderStatus,

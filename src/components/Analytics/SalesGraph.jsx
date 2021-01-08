@@ -14,7 +14,7 @@ import NumberFormat from "react-number-format";
 
 const NumberMask = (value) => (
   <NumberFormat
-    value={value}
+    value={value / 100}
     displayType="text"
     thousandSeparator={true}
     prefix={"₱"}
@@ -26,7 +26,7 @@ const NumberMask = (value) => (
 const SalesGraph = ({ data }) => {
   return (
     <Fragment>
-      <LineChart data={data.salesActivities} width={1825} height={300}>
+      <LineChart data={data} width={1825} height={300}>
         <XAxis dataKey="dateUnit" />
         <YAxis />
         <CartesianGrid strokeDasharray="3 3" />

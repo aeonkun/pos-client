@@ -54,9 +54,6 @@ export const submitOrderApi = async (
   }
 ) => {
   try {
-    console.log("in api");
-    console.log(dateTimeCreated);
-
     const { data } = await axios.post(
       url + "/orders",
       {

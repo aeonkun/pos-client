@@ -14,9 +14,7 @@ import { submitOrderApi } from "../../api";
 import { useAuth0 } from "@auth0/auth0-react";
 import useStyles from "./OrderFormStyles";
 import * as Constants from "./constants/OrderFormConstants";
-import useSWR from "swr";
 import { getDeliveryDestinationsAndChargesApi } from "../../api";
-import { de } from "date-fns/esm/locale";
 
 const OrderForm = () => {
   const classes = useStyles();

@@ -5,16 +5,23 @@ import useStyles from "./AnalyticsStyles";
 import { useAuth0 } from "@auth0/auth0-react";
 import useSWR from "swr";
 import { getOrderActivityApi } from "../../api";
-import { CircularProgress } from "@material-ui/core";
 import * as Constants from "../OrderList/constants/OrderListConstants";
 import { startOfMonth, endOfMonth } from "date-fns";
 import { DateRangePickerButton } from "..";
+import LoadingOverlay from "react-loading-overlay";
+import CountUp from "react-countup";
 
 const OrderActivity = () => {
   const { getAccessTokenSilently } = useAuth0();
 
   //for swr fetching
   const [url, setUrl] = useState(`/analytics/orderactivity`);
+  const [statusData, setStatusData] = useState([
+    { orderStatus: "NEW", number: 0 },
+    { orderStatus: "CONFIRMED", number: 0 },
+    { orderStatus: "COMPLETED", number: 0 },
+    { orderStatus: "CANCELLED", number: 0 },
+  ]);
   const [dateRange, setDateRange] = useState([
     startOfMonth(new Date()),
     endOfMonth(new Date()),
@@ -32,62 +39,72 @@ const OrderActivity = () => {
   const getOrderActivity = async () => {
     const token = await getAccessTokenSilently();
     const orderActivity = await getOrderActivityApi(token, dateRange);
+    if (orderActivity) {
+      setStatusData(orderActivity);
+    }
     return orderActivity;
   };
 
-  const { data, error } = useSWR(url, getOrderActivity);
+  const { data, error, isValidating } = useSWR(url, getOrderActivity);
 
   const classes = useStyles();
 
   if (error) return <p>Error occured. Please refresh page.</p>;
-  if (!data)
-    return (
-      <Grid container justify="center" alignItems="center">
-        <CircularProgress />
-      </Grid>
-    );
 
   return (
     <Fragment>
-      <Paper className={classes.paper}>
-        <Grid container direction="column" spacing={3}>
-          <Grid item xs={12} justify="space-between" alignItems="center">
-            <Grid
-              container
-              direction="row"
-              justify="flex-start"
-              alignItems="center"
-            >
-              <Grid item>
-                <Typography variant="h5">Order Activity</Typography>
-              </Grid>
-              <Grid item>
-                <DateRangePickerButton
-                  dateRange={dateRange}
-                  handleDateChange={handleDateChange}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid
-              container
-              spacing={3}
-              justify="space-evenly"
-              alignItems="center"
-            >
-              {data.map((item) => (
-                <Grid item xs={12 / data.length}>
-                  <OrderStatusCard
-                    number={item.number}
-                    status={Constants.orderStatuses[item.orderStatus]}
-                  ></OrderStatusCard>
+      <LoadingOverlay
+        active={!data || isValidating}
+        spinner
+        text="Loading your content..."
+      >
+        <Paper className={classes.paper}>
+          <Grid container direction="column" spacing={3}>
+            <Grid item xs={12} justify="space-between" alignItems="center">
+              <Grid
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="center"
+              >
+                <Grid item>
+                  <Typography variant="h5">Order Activity</Typography>
                 </Grid>
-              ))}
+                <Grid item>
+                  <DateRangePickerButton
+                    dateRange={dateRange}
+                    handleDateChange={handleDateChange}
+                  />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid
+                container
+                spacing={3}
+                justify="space-evenly"
+                alignItems="center"
+              >
+                {statusData.map((item) => (
+                  <Grid item xs={12 / statusData.length}>
+                    <OrderStatusCard
+                      number={
+                        <CountUp
+                          start={0}
+                          end={item.number}
+                          duration={0.5}
+                          separator=","
+                        />
+                      }
+                      status={Constants.orderStatuses[item.orderStatus]}
+                    ></OrderStatusCard>
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
-      </Paper>
+        </Paper>
+      </LoadingOverlay>
     </Fragment>
   );
 };

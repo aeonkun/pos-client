@@ -10,7 +10,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
-import Button from "@material-ui/core/Button";
 import useStyles from "./OrderListStyles";
 import ErrorOutlineIcon from "@material-ui/icons/ErrorOutline";
 import * as PaymentMethodConstants from "../OrderForm/constants/OrderFormConstants";
@@ -18,6 +17,7 @@ import * as OrderStatusConstants from "./constants/OrderListConstants";
 import UpdateIcon from "@material-ui/icons/Update";
 import ReceiptIcon from "@material-ui/icons/Receipt";
 import { List, ListItem, ListItemText, Grid } from "@material-ui/core";
+import { NumberFormatter } from "..";
 
 const OrderTableRow = ({
   order,
@@ -26,7 +26,6 @@ const OrderTableRow = ({
   handleOpenInvoiceModal,
 }) => {
   const [open, setOpen] = useState(false);
-  console.log(order);
 
   const classes = useStyles();
   return (
@@ -55,7 +54,7 @@ const OrderTableRow = ({
           {PaymentMethodConstants.paymentMethod[order.paymentMethod]}
         </TableCell>
         <TableCell align="center">
-          {(order.totalPrice / 100).toFixed(2)}
+          <NumberFormatter value={order.totalPrice / 100} />
         </TableCell>
         <TableCell align="center">{order.createdBy}</TableCell>
         <TableCell align="center">
@@ -139,7 +138,7 @@ const OrderTableRow = ({
                 </TableHead>
                 <TableBody>
                   {order.orderDetails !== null ? (
-                    order.orderDetails.map((orderDetail) => (
+                    order.orderDetails.map((orderDetail, i, arr) => (
                       <Fragment>
                         <TableRow key={orderDetail.productId}>
                           {orderDetail.hasEnoughStock === false && (
@@ -155,34 +154,48 @@ const OrderTableRow = ({
                             {orderDetail.quantity}
                           </TableCell>
                           <TableCell align="right">
-                            {(orderDetail.price / 100).toFixed(2)}
+                            <NumberFormatter value={orderDetail.price / 100} />
                           </TableCell>
                           <TableCell align="right">
-                            {(orderDetail.total / 100).toFixed(2)}
+                            <NumberFormatter value={orderDetail.total / 100} />
                           </TableCell>
                         </TableRow>
-                        <TableRow>
-                          <TableCell />
-                          <TableCell />
-                          <TableCell />
-                          <TableCell align="right" className={classes.header}>
-                            Delivery Charge:
-                          </TableCell>
-                          <TableCell align="right">
-                            {order.deliveryCharge}
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell />
-                          <TableCell />
-                          <TableCell />
-                          <TableCell align="right" className={classes.header}>
-                            Total:
-                          </TableCell>
-                          <TableCell align="right">
-                            {(order.totalPrice / 100).toFixed(2)}
-                          </TableCell>
-                        </TableRow>
+                        {arr.length - 1 === i && (
+                          <Fragment>
+                            <TableRow>
+                              <TableCell />
+                              <TableCell />
+                              <TableCell />
+                              <TableCell
+                                align="right"
+                                className={classes.header}
+                              >
+                                Delivery Charge:
+                              </TableCell>
+                              <TableCell align="right">
+                                <NumberFormatter
+                                  value={order.deliveryCharge / 100}
+                                ></NumberFormatter>
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell />
+                              <TableCell />
+                              <TableCell />
+                              <TableCell
+                                align="right"
+                                className={classes.header}
+                              >
+                                Total:
+                              </TableCell>
+                              <TableCell align="right">
+                                <NumberFormatter
+                                  value={order.totalPrice / 100}
+                                />
+                              </TableCell>
+                            </TableRow>
+                          </Fragment>
+                        )}
                       </Fragment>
                     ))
                   ) : (

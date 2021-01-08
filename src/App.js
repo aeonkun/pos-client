@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { CircularProgress, Grid } from "@material-ui/core";
-import { DashboardContainer, LoginRedirect } from "../src/components";
+import { Dashboard, LoginRedirect } from "../src/components";
 
 const App = () => {
   const { isLoading, isAuthenticated, error } = useAuth0();
@@ -17,7 +17,7 @@ const App = () => {
     return <div>Oops... {error.message}</div>;
   }
   if (isAuthenticated) {
-    return <DashboardContainer path="/analytics" />;
+    return <Dashboard path="/analytics" />;
   } else {
     return <LoginRedirect path="/authorize" />;
   }

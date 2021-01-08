@@ -11,7 +11,7 @@ import {
   ListItemSecondaryAction,
   ListItemText,
 } from "@material-ui/core";
-import { ProductDetailsModal } from "..";
+import { NumberFormatter, ProductDetailsModal } from "..";
 import ProductEditModal from "./ProductEditModal";
 
 const ProductList = ({
@@ -43,13 +43,9 @@ const ProductList = ({
                   <ListItem button ContainerComponent="div">
                     <ListItemText
                       primary={`${product.itemName}`}
-                      secondary={`Price: ₱${(product.price / 100).toFixed(
-                        2
-                      )} | Stock on Hand: ${
-                        product.stockOnHand
-                      } | Committed Stock: ${
-                        product.committedStock
-                      } | Available Stock: ${product.availableStock}`}
+                      secondary={
+                        <NumberFormatter value={product.price / 100} />
+                      }
                     />
                     <IconButton
                       color="primary"

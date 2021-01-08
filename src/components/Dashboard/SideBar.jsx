@@ -9,7 +9,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import { mainListItems } from "./listItems";
+import { ComponentList } from "..";
 import useStyles from "./DashboardStyle";
 
 const SideBar = ({ user, open, handleDrawerClose, logout }) => {
@@ -31,7 +31,7 @@ const SideBar = ({ user, open, handleDrawerClose, logout }) => {
         </IconButton>
       </div>
       <Divider />
-      <List>{mainListItems}</List>
+      <ComponentList />
       <Divider />
       <List>
         <div>

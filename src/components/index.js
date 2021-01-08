@@ -2,11 +2,12 @@
 export { default as LoginRedirect } from "./LoginRedirect/LoginRedirect";
 
 // Dashboard
-export { default as DashboardContainer } from "./Dashboard/DashboardContainer.jsx";
 export { default as Dashboard } from "./Dashboard/Dashboard";
 export { default as TopBar } from "./Dashboard/TopBar";
 export { default as SideBar } from "./Dashboard/SideBar";
 export { default as MainDisplay } from "./Dashboard/MainDisplay";
+export { default as ComponentList } from "./Dashboard/ComponentList";
+export { default as ComponentChildrenExpander } from "./Dashboard/ComponentChildrenExpander";
 
 // Order
 export { default as OrderForm } from "./OrderForm/OrderForm";
@@ -22,12 +23,15 @@ export { default as OrderStatusModal } from "./OrderList/OrderStatusModal";
 export { default as InventoryManagement } from "./Inventory/InventoryManagement";
 export { default as AdjustInventory } from "./Inventory/AdjustInventory";
 export { default as AdjustmentList } from "./Inventory/AdjustmentList";
+export { default as InventoryList } from "./Inventory/InventoryList/InventoryList";
+export { default as InventoryTable } from "./Inventory/InventoryList/InventoryTable";
 
 //Utility
 export { default as PageSelector } from "./OrderList/PageSelector";
 export { default as AnalyticsDateRangePicker } from "./Analytics/DateTimePickers/AnalyticsDateRangePicker";
 export { default as PopOverDateRange } from "./Analytics/DateTimePickers/PopOverDateRange";
 export { default as DateRangePickerButton } from "./Analytics/DateTimePickers/DateRangePickerButton";
+export { default as NumberFormatter } from "./Utils/NumberFormatter";
 
 // Invoice
 export { default as InvoiceDisplay } from "./Invoice/InvoiceDisplay";

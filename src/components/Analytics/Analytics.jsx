@@ -1,10 +1,9 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import OrderActivity from "./OrderActivity";
 import Grid from "@material-ui/core/Grid";
 import SalesSummary from "./SalesSummary";
 import ProductSales from "./ProductSales";
 import Greeting from "./Greeting";
-import TimeUnitDropDown from "./TimeUnitDropDown";
 
 const Analytics = () => {
   return (

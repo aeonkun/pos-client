@@ -16,7 +16,7 @@ const OrderTable = ({
   return (
     <Fragment>
       <TableContainer component={Paper}>
-        <Table aria-label="collapsible table">
+        <Table>
           <OrderTableHeader />
           <TableBody>
             {data.orders !== null ? (
