@@ -1,7 +1,7 @@
 import React from "react";
 import NumberFormat from "react-number-format";
 
-const NumberFormatMask = ({ value }) => {
+const NumberFormatMask = ({ value, isString }) => {
   return (
     <NumberFormat
       value={value}
@@ -10,6 +10,7 @@ const NumberFormatMask = ({ value }) => {
       prefix={"₱"}
       decimalScale={2}
       fixedDecimalScale={true}
+      isNumericString={isString ? true : false}
     />
   );
 };

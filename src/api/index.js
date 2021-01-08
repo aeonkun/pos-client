@@ -309,10 +309,10 @@ export const getOrderActivityApi = async (token, dateRange) => {
     console.error(error.message);
   }
 };
-export const getSalesActivitySummaryApi = async (token, timeUnit) => {
+export const getSalesActivitySummaryApi = async (token, year, month) => {
   try {
     const { data } = await axios.get(`${url}/analytics/salesactivity`, {
-      params: { timeUnit: timeUnit },
+      params: { year, month },
       headers: {
         Authorization: `Bearer ${token}`,
       },

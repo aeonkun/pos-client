@@ -28,10 +28,13 @@ export { default as InventoryTable } from "./Inventory/InventoryList/InventoryTa
 
 //Utility
 export { default as PageSelector } from "./OrderList/PageSelector";
-export { default as AnalyticsDateRangePicker } from "./Analytics/DateTimePickers/AnalyticsDateRangePicker";
-export { default as PopOverDateRange } from "./Analytics/DateTimePickers/PopOverDateRange";
-export { default as DateRangePickerButton } from "./Analytics/DateTimePickers/DateRangePickerButton";
+export { default as AnalyticsDateRangePicker } from "./Analytics/DateTimePickers/DateRangePicker/AnalyticsDateRangePicker";
+export { default as PopOverDateRange } from "./Analytics/DateTimePickers/DateRangePicker/PopOverDateRange";
+export { default as DateRangePickerButton } from "./Analytics/DateTimePickers/DateRangePicker/DateRangePickerButton";
 export { default as NumberFormatter } from "./Utils/NumberFormatter";
+export { default as PopOverYearMonthPicker } from "./Analytics/DateTimePickers/YearMonthPicker/PopOverYearMonthPicker";
+export { default as YearMonthPicker } from "./Analytics/DateTimePickers/YearMonthPicker/YearMonthPicker";
+export { default as YearMonthPickerButton } from "./Analytics/DateTimePickers/YearMonthPicker/YearMonthPickerButton";
 
 // Invoice
 export { default as InvoiceDisplay } from "./Invoice/InvoiceDisplay";

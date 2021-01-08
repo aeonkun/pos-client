@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IconButton } from "@material-ui/core";
 import DateRangeIcon from "@material-ui/icons/DateRange";
-import { PopOverDateRange } from "../..";
+import { PopOverDateRange } from "../../..";
 import { Fragment } from "react";
 
 const DateRangePickerButton = ({ dateRange, handleDateChange }) => {

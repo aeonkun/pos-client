@@ -7,7 +7,6 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer,
 } from "recharts";
 
 import NumberFormat from "react-number-format";
@@ -28,7 +27,13 @@ const SalesGraph = ({ data }) => {
     <Fragment>
       <LineChart data={data} width={1825} height={300}>
         <XAxis dataKey="dateUnit" />
-        <YAxis />
+        <YAxis
+          tickFormatter={(tick) => {
+            return (tick / 100).toLocaleString(undefined, {
+              minimumFractionDigits: 0,
+            });
+          }}
+        />
         <CartesianGrid strokeDasharray="3 3" />
         <Tooltip formatter={NumberMask} />
         <Legend />
