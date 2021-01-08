@@ -21,20 +21,14 @@ const SalesSummary = () => {
   const [month, setMonth] = useState(new Date());
   const [year, setYear] = useState(new Date());
   const [enableMonth, setEnableMonth] = useState(true);
-  const [url, setUrl] = useState(`/analytics/salesactivity`);
 
   const toggleEnableMonth = (event) => {
     setEnableMonth(event.target.checked);
-    if (enableMonth) {
-      setUrl(
-        `/analytics/salesactivity?year=${getYear(year)}&month=${
-          getMonth(month) + 1
-        }`
-      );
-    } else {
-      setUrl(`/analytics/salesactivity?year=${getYear(year)}&month=${0}`);
-    }
   };
+
+  let url = `/analytics/salesactivity?year=${getYear(year)}&month=${
+    enableMonth ? getMonth(month) + 1 : 0
+  }`;
 
   const getSalesActivitySummary = async () => {
     const token = await getAccessTokenSilently();
@@ -80,7 +74,7 @@ const SalesSummary = () => {
                 <Grid item xs={12}>
                   <Typography variant="h6">
                     {`Total Sales: `}
-                    {!data && "No Data"}
+                    {!data && "Loading data..."}
                     {data && (
                       <NumberFormat
                         value={
