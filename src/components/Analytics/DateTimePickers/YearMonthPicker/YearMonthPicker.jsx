@@ -6,10 +6,8 @@ import { Grid, Paper, Switch, FormControlLabel } from "@material-ui/core";
 import useStyles from "../../AnalyticsStyles";
 
 const YearMonthPicker = ({
-  year,
-  handleYearChange,
-  month,
-  handleMonthChange,
+  date,
+  handleDateChange,
   enableMonth,
   toggleEnableMonth,
 }) => {
@@ -21,21 +19,11 @@ const YearMonthPicker = ({
           <Grid container direction="column" spacing={3}>
             <Grid item>
               <DatePicker
-                views={["year"]}
-                label="Year"
-                value={year}
-                onChange={handleYearChange}
+                views={enableMonth ? ["year", "month"] : ["year"]}
+                label="Date"
+                value={date}
+                onChange={handleDateChange}
                 disableFuture
-              />
-            </Grid>
-            <Grid item>
-              <DatePicker
-                views={["month"]}
-                label="Month"
-                value={month}
-                onChange={handleMonthChange}
-                shouldDisableDate={true}
-                disabled={!enableMonth}
               />
             </Grid>
             <Grid item xs={12}>

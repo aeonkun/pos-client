@@ -6,10 +6,8 @@ const PopOverYearMonthPicker = ({
   open,
   handleClose,
   anchorElement,
-  year,
-  handleYearChange,
-  month,
-  handleMonthChange,
+  date,
+  handleDateChange,
   enableMonth,
   toggleEnableMonth,
 }) => {
@@ -29,10 +27,8 @@ const PopOverYearMonthPicker = ({
       }}
     >
       <YearMonthPicker
-        year={year}
-        handleYearChange={handleYearChange}
-        month={month}
-        handleMonthChange={handleMonthChange}
+        date={date}
+        handleDateChange={handleDateChange}
         enableMonth={enableMonth}
         toggleEnableMonth={toggleEnableMonth}
       />

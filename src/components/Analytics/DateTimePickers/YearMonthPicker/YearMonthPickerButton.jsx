@@ -4,10 +4,8 @@ import DateRangeIcon from "@material-ui/icons/DateRange";
 import { PopOverYearMonthPicker } from "../../..";
 
 const YearMonthPickerButton = ({
-  year,
-  handleYearChange,
-  month,
-  handleMonthChange,
+  date,
+  handleDateChange,
   enableMonth,
   toggleEnableMonth,
 }) => {
@@ -32,10 +30,8 @@ const YearMonthPickerButton = ({
         open={open}
         handleClose={handleClose}
         anchorElement={anchorElement}
-        year={year}
-        handleYearChange={handleYearChange}
-        month={month}
-        handleMonthChange={handleMonthChange}
+        date={date}
+        handleDateChange={handleDateChange}
         enableMonth={enableMonth}
         toggleEnableMonth={toggleEnableMonth}
       />

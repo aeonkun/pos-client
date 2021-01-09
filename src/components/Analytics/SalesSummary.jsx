@@ -5,9 +5,7 @@ import useStyles from "./AnalyticsStyles";
 import useSWR from "swr";
 import { useAuth0 } from "@auth0/auth0-react";
 import { getSalesActivitySummaryApi } from "../../api";
-import { CircularProgress } from "@material-ui/core";
 import NumberFormat from "react-number-format";
-import TimeUnitDropDown from "./TimeUnitDropDown";
 import LoadingOverlay from "react-loading-overlay";
 import { getMonth, getYear } from "date-fns";
 import { YearMonthPickerButton } from "..";
@@ -17,25 +15,25 @@ const SalesSummary = () => {
 
   const [chartData, setChartData] = useState([{}]);
 
+  const [date, setDate] = useState(new Date());
+
   // add 1 on the month since date-fns "january" is equal to 0
-  const [month, setMonth] = useState(new Date());
-  const [year, setYear] = useState(new Date());
   const [enableMonth, setEnableMonth] = useState(true);
 
   const toggleEnableMonth = (event) => {
     setEnableMonth(event.target.checked);
   };
 
-  let url = `/analytics/salesactivity?year=${getYear(year)}&month=${
-    enableMonth ? getMonth(month) + 1 : 0
+  let url = `/analytics/salesactivity?year=${getYear(date)}&month=${
+    enableMonth ? getMonth(date) + 1 : 0
   }`;
 
   const getSalesActivitySummary = async () => {
     const token = await getAccessTokenSilently();
     const salesActivity = await getSalesActivitySummaryApi(
       token,
-      getYear(year),
-      enableMonth !== false ? getMonth(month) + 1 : 0
+      getYear(date),
+      enableMonth !== false ? getMonth(date) + 1 : 0
     );
     setChartData(salesActivity);
     return salesActivity;
@@ -57,16 +55,19 @@ const SalesSummary = () => {
         <Paper className={classes.paper}>
           <Grid container direction="column" spacing={3}>
             <Grid item xs={12}>
-              <Grid container spacing={3}>
+              <Grid
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="center"
+              >
                 <Grid item>
                   <Typography variant="h5">Sales Activity Summary</Typography>
                 </Grid>
                 <Grid item>
                   <YearMonthPickerButton
-                    year={year}
-                    handleYearChange={setYear}
-                    month={month}
-                    handleMonthChange={setMonth}
+                    date={date}
+                    handleDateChange={setDate}
                     enableMonth={enableMonth}
                     toggleEnableMonth={toggleEnableMonth}
                   />
