@@ -1,8 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Typography, Grid, CircularProgress } from "@material-ui/core";
+import { Typography, Grid, CircularProgress, Paper } from "@material-ui/core";
 import { getProductByIdApi } from "../../api";
+import useStyles from "./ProductListStyles";
 import { format } from "date-fns";
+import { NumberFormatter } from "..";
 
 function formatDateTime(dateTime) {
   const date = new Date(dateTime);
@@ -23,6 +25,8 @@ const ProductOverview = ({ modalProduct }) => {
     getProductById(modalProduct.id);
   }, []);
 
+  const classes = useStyles();
+
   if (!productDetails)
     return (
       <Grid container justify="center" alignItems="center">
@@ -31,70 +35,74 @@ const ProductOverview = ({ modalProduct }) => {
     );
   return (
     <Fragment>
-      <Grid container>
-        <Grid item xs={6}>
-          <Typography variant="subtitle1" color="textSecondary">
-            Item Name
-          </Typography>
+      <Paper className={classes.paper} elevation={3}>
+        <Grid container>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1" color="textSecondary">
+              Item Name
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1">
+              {productDetails.itemName}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1" color="textSecondary">
+              Item Price
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1">
+              {<NumberFormatter value={productDetails.price / 100} />}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1" color="textSecondary">
+              Date Created
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1">
+              {productDetails.dateTimeCreated
+                ? formatDateTime(productDetails.dateTimeCreated)
+                : "null"}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1" color="textSecondary">
+              Created by
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1">
+              {productDetails.createdBy}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1" color="textSecondary">
+              Last modified date
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1">
+              {productDetails.dateTimeModified
+                ? formatDateTime(productDetails.dateTimeModified)
+                : "No modifications"}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1" color="textSecondary">
+              Last modified by
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="subtitle1">
+              {productDetails.modifiedBy}
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={6}>
-          <Typography variant="subtitle1">{productDetails.itemName}</Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography variant="subtitle1" color="textSecondary">
-            Item Price
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography variant="subtitle1">
-            {(productDetails.price / 100).toFixed(2)}
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography variant="subtitle1" color="textSecondary">
-            Date Created
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography variant="subtitle1">
-            {productDetails.dateTimeCreated
-              ? formatDateTime(productDetails.dateTimeCreated)
-              : "null"}
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography variant="subtitle1" color="textSecondary">
-            Created by
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography variant="subtitle1">
-            {productDetails.createdBy}
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography variant="subtitle1" color="textSecondary">
-            Last modified date
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography variant="subtitle1">
-            {productDetails.dateTimeModified
-              ? formatDateTime(productDetails.dateTimeModified)
-              : "null"}
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography variant="subtitle1" color="textSecondary">
-            Last modified by
-          </Typography>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography variant="subtitle1">
-            {productDetails.modifiedBy}
-          </Typography>
-        </Grid>
-      </Grid>
+      </Paper>
     </Fragment>
   );
 };
