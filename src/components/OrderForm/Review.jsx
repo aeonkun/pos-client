@@ -41,7 +41,7 @@ export default function Review(props) {
         <ListItem className={classes.listItem}>
           <ListItemText primary="Delivery Charge" />
           <Typography variant="subtitle1" className={classes.total}>
-            <NumberFormatter value={props.order.deliveryCharge / 100} />
+            <NumberFormatter value={props.order.deliveryCharge} />
           </Typography>
         </ListItem>
         <ListItem className={classes.listItem}>
